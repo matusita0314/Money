@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,15 +11,10 @@ import lombok.Data;
 @Table(name = "user")
 @Data
 public class User {
-	
 	@Id
-    private Integer user_id; //自動インクリメント
-	
+    private String username;
 	@Column(name="mail_address")
     private String mailAddress;
-	
     private String password;
-    private String username;
-    private LocalDate birthday;
     
 }

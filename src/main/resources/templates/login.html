@@ -6,11 +6,11 @@
 </head>
 <body>
 <h2>ログイン画面</h2>
-<span th:text="${error}"></span>
+<span th:text="${errorMsg}"></span>
 <form th:action="@{/login}" method="post" th:object="${loginForm}">
 	<div>
-		<label>ログインID</label>
-		<input type="text" th:field="*{LoginId}">
+		<label>ユーザー名</label>
+		<input type="text" th:field="*{username}">
 	</div> 
 	<div>
 		<label>パスワード</label>
@@ -19,6 +19,7 @@
 	<div>
 		<input type="submit" value="ログイン">
 	</div>
+	<a th:href="@{'/signup'}">新規登録はこちら</a>
 	
 </form>
 </body>

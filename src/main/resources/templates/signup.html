@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	</meta>
+	<title>ユーザー登録画面</title>
+</head>
+
+<body>
+	<form method="post" th:action="@{/signup}" th:object="${signupForm}">
+		<div class="page-header">
+			<h1>ユーザー登録画面</h1>
+		</div>
+		<span th:text="${Message}"></span>
+		<table class="table table-bordered table-hover">
+			<!-- メールアドレス -->
+			<tr>
+				<th class="active">メールアドレス</th>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{mail_address}" />
+					</div>
+				</td>
+			</tr>
+			<!-- ユーザー名 -->
+			<tr>
+				<th class="active">ユーザー名</th>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{username}" />
+					</div>
+				</td>
+			</tr>
+			<!-- パスワード -->
+			<tr>
+				<th class="active">パスワード</th>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" th:field="*{password}" />
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="button">
+			<input type="submit" value="登録">
+		</div>
+	</form>
+	</div>
+</body>
+
+</html>
