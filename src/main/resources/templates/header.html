@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="header">
+		<a class="navbar-brand" th:href="@{/menu}">お金管理システム</a>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">アルバイト</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">投資</a>
+				</li>
+			</ul>
+		</div>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" class="btn btn-light" value="ログアウト" />
+		</form>
+	</nav>
+</body>
+
+</html>
