@@ -10,6 +10,13 @@ import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Spring securityの認証機能のカスタマイズするためのクラス
+ * DBからユーザー情報をとってきてログイン認証できるようにする。
+ * 
+ */
+
+
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServicelmpl implements UserDetailsService {
@@ -20,10 +27,11 @@ public class UserDetailsServicelmpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		var user = repository.findById(username)
 				.orElseThrow(() -> new UsernameNotFoundException(username));
+				//ユーザーが見つからない場合はUsernameNotFoundExceptionをスロー
 		
-		return User.withUsername(user.getUsername())
+		return User
+				.withUsername(user.getUsername())
 				.password(user.getPassword())
-				.roles("USER")
 				.build();
 	}
 

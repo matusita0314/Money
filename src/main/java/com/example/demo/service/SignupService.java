@@ -44,6 +44,6 @@ public class SignupService {
 		
 		var encodedPassword = passwordEncoder.encode(form.getPassword());
 		user.setPassword(encodedPassword);
-		return Optional.of(repository.save(user)); //trueが返る
+		return Optional.of(repository.save(user)); 
 	}
 }

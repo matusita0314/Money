@@ -22,6 +22,7 @@
 			</ul>
 		</div>
 		<form th:action="@{/logout}" method="post">
+			<span class="text-light" th:text="|ユーザー名：${#authentication.principal.username}|"></span>
 			<input type="submit" class="btn btn-light" value="ログアウト" />
 		</form>
 	</nav>
