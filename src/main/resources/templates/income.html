@@ -1,12 +1,27 @@
 <!DOCTYPE html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
-income画面だよー
 
-<span class="text-light" th:text="|ユーザー名：${#authentication.principal.income}|"></span>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>User ID</th>
+			<th>Amount</th>
+			<th>Date</th>
+		</tr>
+		<tr th:each="income : ${incomes}">
+			<td th:text="${income.income_id}">Income ID</td>
+			<td th:text="${income.userId}">User ID</td>
+			<td th:text="${income.amount}">Amount</td>
+			<td th:text="${income.date}">Date</td>
+		</tr>
+	</table>
+
 </body>
+
 </html>
