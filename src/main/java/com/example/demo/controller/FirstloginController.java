@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.form.LoginForm;
+import com.example.demo.form.FirstLoginForm;
 import com.example.demo.service.LoginService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,15 +21,13 @@ public class FirstloginController {
 	private final LoginService service;
 	
 	@GetMapping("first-login")
-	public String view(Model model,@ModelAttribute("LoginForm") LoginForm form) {
-//		model.addAttribute("loginForm", new LoginForm());
+	public String view(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
 		return "first-login";
 	}
 	
 	@PostMapping("first-login")
-	public String firstlogin(Model model,LoginForm form,@AuthenticationPrincipal User user) {
+	public String firstlogin(Model model, @ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
 		service.resistSavings(form,user.getUsername());
-		
 		return "menu";
 	}
 

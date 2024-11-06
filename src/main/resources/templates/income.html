@@ -179,7 +179,7 @@
 					<td th:text="${income.amount}">金額</td>
 					<td th:text="${income.date}">日付</td>
 					<td>
-						<button class="btn btn-green" th:href="@{/income-delete(income_id=*{income_id})}">削除</button>
+						<a class="btn btn-green" th:href="@{/income-delete(income_id=${income.income_id})}">削除</a>
 					</td>
 				</tr>
 			</table>

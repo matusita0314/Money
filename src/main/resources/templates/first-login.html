@@ -6,8 +6,7 @@
 <title>ログイン画面</title>
 </head>
 <body class="text-center" >
-<form th:action="@{/first-login}" method="post" th:object="${loginForm}">
-	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<form th:action="@{/first-login}" method="post" th:object="${FirstLoginForm}">
 	<div>
 		<label>	現在の貯金額は？</label>
 		<input type="text" th:field="*{savings}">
