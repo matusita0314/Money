@@ -17,5 +17,8 @@ public class User {
     private String mailAddress;
     private String password;
     private int user_id;
+    @Column(name = "first_login", columnDefinition = "TINYINT(1)")
+    private Boolean firstLogin;
+    private Integer savings;
     
 }

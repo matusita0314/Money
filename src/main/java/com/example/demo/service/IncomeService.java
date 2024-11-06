@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Income;
+import com.example.demo.form.IncomeForm;
 import com.example.demo.repository.IncomeRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -19,9 +20,21 @@ public class IncomeService {
 	
 	private final IncomeRepository incomerepository;
 	
-	public List<Income> searchIncomeById(String username){
+	public List<Income> searchIncomeByname(String username){
 		var user = userrepository.findById(username);
-		return incomerepository.findByUserId(user.get().getUser_id());
+		return incomerepository.findByUsername(user.get().getUsername());
 	}
-
+	
+	public void resistIncome(IncomeForm form){
+		var income = new Income();
+		income.setAmount(form.getAmount());
+		income.setDate(form.getDate());
+		income.setUsername(form.getUsername());
+		income.setJob(form.getJob());
+		incomerepository.save(income);
+	}
+	
+	public void deleteIncome(Integer income_id) {
+		incomerepository.deleteById(income_id);
+	}
 }

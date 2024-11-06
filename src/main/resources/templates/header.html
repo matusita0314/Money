@@ -1,31 +1,85 @@
 <!DOCTYPE html>
 
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<meta charset="UTF-8">
+	<title>Income Page</title>
+	<style>
+		.header {
+			padding: 16px 24px;
+			background-color: #4CAF50;
+			align-items: center;
+		}
+
+		.header-logo {
+			font-weight: bold;
+			font-size: 30px;
+		}
+
+		.header-list {
+			list-style-type: none; 
+			display: flex;
+			align-items: center;
+			gap: 32px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.custom-link {
+			color: rgb(255, 255, 255);
+			font-size: 15px;
+		}
+
+		.custom-link:hover {
+			color: rgb(128, 128, 128);
+		}
+
+		.header {
+			display: flex;
+			align-items: center;
+		}
+
+		.header-nav {
+			display: flex;
+			align-items: center;
+			width: 100%;
+		}
+
+		.header-user {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+		}
+
+		.text-light {
+			font-size: 15px;
+			font-weight: bold;
+		}
+	</style>
+
 </head>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="header">
-		<a class="navbar-brand" th:href="@{/menu}">お金管理システム</a>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-			<ul class="navbar-nav">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">アルバイト</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">投資</a>
-				</li>
+	<header class="header">
+		<h1 class="header-logo">LOGO</h1>
+
+		<nav class="header-nav">
+			<ul class="header-list">
+				<li class="header-item"><a href="/menu" class="custom-link">HOME</a></li>
+				<li class="header-item"><a href="/income" class="custom-link">アルバイト</a></li>
+				<li class="header-item"><a href="/expence" class="custom-link">支出</a></li>
+				<li class="header-item"><a href="" class="custom-link">投資</a></li>
 			</ul>
-		</div>
-		<form th:action="@{/logout}" method="post">
-			<span class="text-light" th:text="|ユーザー名：${#authentication.principal.username}|"></span>
-			<input type="submit" class="btn btn-light" value="ログアウト" />
-		</form>
-	</nav>
+			<div class="header-user">
+				<form th:action="@{/logout}" method="post">
+					<span class="text-light" th:text="|ユーザー名：${#authentication.principal.username}|"></span>
+					<input type="submit" class="btn btn-light" value="ログアウト" />
+				</form>
+			</div>
+		</nav>
+	</header>
+
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Income Page</title>
+	<title>Expence Page</title>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -137,15 +137,15 @@
 	<div class="container">
 		<!-- 左側: 入力フォーム -->
 		<div class="form-container">
-			<h2>収入入力</h2>
-			<form th:action="@{/income}" method="post" th:object="${IncomeForm}">
+			<h2>支出先</h2>
+			<form th:action="@{/expence}" method="post" th:object="${ExpenceForm}">
 				<span th:text="${errorMsg}"></span>
 				<div>
-					<label>アルバイト名</label>
-					<input type="text" th:field="*{job}" placeholder="会社名を入力してください">
+					<label>支出先</label>
+					<input type="text" th:field="*{category}" placeholder="会社名を入力してください">
 				</div>
 				<div>
-					<label>収入額</label>
+					<label>金額</label>
 					<input type="text" th:field="*{amount}">
 				</div>
 				<div>
@@ -160,26 +160,26 @@
 
 		<!-- 中央: 合計収入 -->
 		<div class="summary-container">
-			<h2>合計収入</h2>
-			<p class="summary-text" th:text="${total_income} + '円'">0円</p>
+			<h2>合計支出</h2>
+			<p class="summary-text" th:text="${total_expence} + '円'">0円</p>
 		</div>
 
 		<!-- 右側: 収入の一覧 -->
 		<div class="table-container">
-			<h2>収入一覧</h2>
+			<h2>支出一覧</h2>
 			<table>
 				<tr>
-					<th>アルバイト名</th>
+					<th>支出先</th>
 					<th>金額</th>
 					<th>日付</th>
 					<th></th>
 				</tr>
-				<tr th:each="income : ${incomes}" th:object="${income}">
-					<td th:text="${income.job}">アルバイト名</td>
-					<td th:text="${income.amount}">金額</td>
-					<td th:text="${income.date}">日付</td>
+				<tr th:each="expence : ${expences}" th:object="${expence}">
+					<td th:text="${expence.category}">アルバイト名</td>
+					<td th:text="${expence.amount}">金額</td>
+					<td th:text="${expence.date}">日付</td>
 					<td>
-						<button class="btn btn-green" th:href="@{/income-delete(income_id=*{income_id})}">削除</button>
+						<button class="btn btn-box" th:href="@{/expence-delete(expence_id=*{expence_id})}">削除</button>
 					</td>
 				</tr>
 			</table>

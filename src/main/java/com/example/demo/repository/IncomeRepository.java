@@ -9,5 +9,6 @@ import com.example.demo.entity.Income;
 
 @Repository 
 public interface IncomeRepository extends JpaRepository<Income,Integer>{
-	List<Income> findByUserId(int userId) ;
+	/**List型で返ってくるメソッドを定義*/
+	List<Income> findByUsername(String username) ; 
 }

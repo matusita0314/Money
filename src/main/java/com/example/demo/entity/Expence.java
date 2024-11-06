@@ -9,15 +9,15 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "income")
+@Table(name = "expence")
 @Data
-public class Income {
+public class Expence {
 	
 	@Id
-	private int income_id;
+	private int expence_id;
 	private String username;
 	private int amount;
 	private Date date;
-	private String job;
+	private String category;
 
 }

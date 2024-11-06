@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
+import com.example.demo.form.LoginForm;
 import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,12 @@ public class LoginService {
 	
 	public Optional<User> searchUserById(String username){
 		return repository.findById(username);
+	}
+	
+	public void resistSavings(LoginForm form,String username) {
+		var user = repository.findById(username);
+		user.get().setSavings(form.getSavings());
+		repository.save(user.get()); //Loginエンティティの更新
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.example.demo.form;
 
-
-
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,11 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class IncomeForm {
+public class ExpenceForm {
+	
 	private int amount;
-
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 	private String username;
-	private String job;
+	private String category;
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/login.css}">
+<title>ログイン画面</title>
+</head>
+<body class="text-center" >
+<form th:action="@{/first-login}" method="post" th:object="${loginForm}">
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	<div>
+		<label>	現在の貯金額は？</label>
+		<input type="text" th:field="*{savings}">
+	</div>
+	<button type="submit">進む</button><br />
+	<br />
+	<a th:href="@{'/login'}">ログイン画面に戻る</a>
+	
+</form>
+</body>
+</html>
