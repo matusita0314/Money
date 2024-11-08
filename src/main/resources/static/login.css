@@ -71,3 +71,7 @@ a {
 a:hover {
     text-decoration: underline;
 };
+
+span {
+	color: rgb(255, 0, 0)
+}

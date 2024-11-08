@@ -3,15 +3,19 @@ package com.example.demo.controller;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.MessageConst;
 import com.example.demo.constant.UrlConst;
+import com.example.demo.form.FirstLoginForm;
 import com.example.demo.form.LoginForm;
 import com.example.demo.service.LoginService;
 import com.example.demo.util.AppUtil;
@@ -54,7 +58,7 @@ public class LoginController {
 	}
 	
 	/**
-	 *　ログインエラー時の画面表示
+	 * ログインエラー時の画面表示
 	 *  エラー時 http://localhost:8080/login?errorとなる。
 	 * 
 	 * @param model
@@ -70,11 +74,26 @@ public class LoginController {
 	}
 	
 	/**
+	 * 初回ログイン時の画面表示
+	 * 現在の貯金と目標を記入
+	 * 
+	 * @param model
+	 * @param form
+	 * @param User
+	 * @return 初回ログイン画面
+	 */
+	
+	@GetMapping("first-login")
+	public String view(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
+		return "first-login";
+	}
+	
+	/**
 	 * ログイン
 	 * 
 	 * @param model
 	 * @param form
-	 * @return 表示画面
+	 * @return メニュー画面
 	 */
 	
 	@PostMapping(UrlConst.LOGIN)
@@ -90,5 +109,24 @@ public class LoginController {
 			model.addAttribute("errorMsg",errorMsg);
 			return "login";
 		}
+	}
+	
+	/**
+	 * 初回ログイン時のフォームの処理
+	 * @param model
+	 * @param form
+	 * @param user
+	 * @retur メニュー画面
+	 */
+	
+	@PostMapping("first-login")
+	public String firstlogin(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
+		if(form.getSavings() >= form.getGoal()) {
+			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
+			model.addAttribute("errorMsg",errorMsg); 
+			return "first-login";
+		}
+		service.resistFirstInfo(form,user.getUsername());
+		return "redirect:/menu";
 	}
 }

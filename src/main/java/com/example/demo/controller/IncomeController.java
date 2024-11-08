@@ -19,6 +19,10 @@ import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 収入管理コントローラー
+ */
+
 @Controller
 @RequiredArgsConstructor
 public class IncomeController {
@@ -31,18 +35,25 @@ public class IncomeController {
 	/**メッセージソース*/
 	private final MessageSource messageSource;
 	
+	/**
+	 * 	収入管理画面表示
+	 * @param model
+	 * @param user
+	 * @return 収入管理画面
+	 */
+	
 	@GetMapping("/income")
 	public String view(Model model,@AuthenticationPrincipal User user) {
-		List<Income> incomes = incomeservice.searchIncomeByname(user.getUsername());
-		int total_income = 0;
-		for(Income income : incomes) {
-			total_income += income.getAmount();
-		}
-		model.addAttribute("total_income",total_income);
-		model.addAttribute("incomes",incomes);
-		model.addAttribute("IncomeForm", new IncomeForm());
+		populateIncomeModel(model,user);
 		return "income";
 	}
+	
+	/**
+	 * 収入一覧の削除
+	 * @param model
+	 * @param income
+	 * @return 収入管理画面
+	 */
 	
 	@GetMapping("/income-delete")
 	public String deleteIncome(Model model,Income income) {
@@ -50,20 +61,20 @@ public class IncomeController {
 		return "redirect:/income";
 	}
 	
+	/**
+	 * 収入を登録
+	 * @param user
+	 * @param form
+	 * @param model
+	 * @return 収入管理画面
+	 */
+	
 	@PostMapping("/income")
 	public String resistincome(@AuthenticationPrincipal User user,IncomeForm form,Model model) {
 		if (form.getDate() == null || form.getJob()=="" || form.getAmount() <= 0) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.INCOME_INPUT_WRONG);
-			model.addAttribute("errorMsg",errorMsg); //エラーメッセージをテンプレートに渡す
-			//もう一度計算しテンプレートに渡す。
-			List<Income> incomes = incomeservice.searchIncomeByname(user.getUsername());
-			int total_income = 0;
-			for(Income income : incomes) {
-				total_income += income.getAmount();
-			}
-			model.addAttribute("total_income",total_income);
-			model.addAttribute("incomes",incomes);
-			model.addAttribute("IncomeForm",new IncomeForm());
+			model.addAttribute("errorMsg",errorMsg);
+			populateIncomeModel(model,user);
 			return "income";
 		}
 		else {
@@ -73,6 +84,23 @@ public class IncomeController {
 			return "redirect:/income";
 		}
 		
+	}
+	
+	/**
+	 * 収入の計算後、ビューに情報を渡すメソッド
+	 * @param model
+	 * @param user
+	 */
+	
+	private void populateIncomeModel(Model model,User user) {
+		List<Income> incomes = incomeservice.searchIncomeByname(user.getUsername());
+		int total_income = 0;
+		for(Income income : incomes) {
+			total_income += income.getAmount();
+		}
+		model.addAttribute("total_income",total_income);
+		model.addAttribute("incomes",incomes);
+		model.addAttribute("IncomeForm",new IncomeForm());
 	}
 
 }

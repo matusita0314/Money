@@ -17,4 +17,6 @@ public class MessageConst {
 	public static final String INCOME_INPUT_WRONG = "income.input.wrong";
 	
 	public static final String EXPENCE_INPUT_WRONG = "expence.input.wrong";
+	
+	public static final String GOAL_INPUT_WRONG = "goal.input.wrong";
 }

@@ -16,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * ユーザー登録画面 Controller
- * 
- * @author syuto
  */
 
 @Controller 
@@ -30,21 +28,34 @@ public class SignupController {
 	/**メッセージソース*/
 	private final MessageSource messageSource;
 	
+	/**
+	 * 新規登録画面表示
+	 * 
+	 * @param form
+	 * @return 新規登録画面
+	 */
 	
 	@GetMapping(UrlConst.SIGNUP)
 	public String view(SignupForm form) {
 		return "signup";
 	}
 	
+	/**
+	 * 新規登録処理
+	 * 
+	 * @param model
+	 * @param form
+	 */
+	
 	@PostMapping(UrlConst.SIGNUP)
 	public void signup(Model model, SignupForm form) {
 		var user = service.resistUser(form); //userはoptional型
-		//ユーザーが存在した場合
+		//ユーザー名が同じユーザーが存在した場合
 		if(user.isEmpty()) {
 			var errorMsg=AppUtil.getMessage(messageSource, MessageConst.SIGNUP_DEPLICATE_LOGIN_ID);
 			model.addAttribute("Message",errorMsg);
 		}
-		//ユーザーが存在しなかった場合
+		//ユーザー名が同じユーザーが存在しなかった場合
 		else {
 			var succeedMsg=AppUtil.getMessage(messageSource, MessageConst.SIGNUP_SUCCEED);
 			model.addAttribute("Message",succeedMsg);

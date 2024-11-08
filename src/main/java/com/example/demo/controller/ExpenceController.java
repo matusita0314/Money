@@ -2,6 +2,10 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+/**
+ * 支出管理コントローラー
+ */
+
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -31,18 +35,25 @@ public class ExpenceController {
 	/**メッセージソース*/
 	private final MessageSource messageSource;
 	
+	/**
+	 * 	支出管理画面表示
+	 * @param model
+	 * @param user
+	 * @return 支出管理画面
+	 */
+	
 	@GetMapping("/expence")
 	public String view(Model model,@AuthenticationPrincipal User user) {
-		List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
-		int total_expence = 0;
-		for(Expence expence : expences) {
-			total_expence += expence.getAmount();
-		}
-		model.addAttribute("total_expence",total_expence);
-		model.addAttribute("expences",expences);
-		model.addAttribute("ExpenceForm",new ExpenceForm());
+		populateExpenceModel(model,user);
 		return "expence";
 	}
+	
+	/**
+	 * 支出一覧の削除
+	 * @param model
+	 * @param expence
+	 * @return 支出管理画面
+	 */
 	
 	@GetMapping("/expence-delete")
 	public String deleteExpence(Model model,Expence expence) {
@@ -50,20 +61,20 @@ public class ExpenceController {
 		return "redirect:/expence";
 	}
 	
+	/**
+	 * 支出を登録
+	 * @param user
+	 * @param form
+	 * @param model
+	 * @return 支出管理画面
+	 */
+	
 	@PostMapping("/expence")
 	public String resistexpence(@AuthenticationPrincipal User user,ExpenceForm form,Model model) {
 		if (form.getDate() == null || form.getCategory()=="" || form.getAmount() <= 0) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.INCOME_INPUT_WRONG);
-			//もう一度計算しテンプレートに渡す。
-			List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
-			int total_expence = 0;
-			for(Expence expence : expences) {
-				total_expence += expence.getAmount();
-			}
-			model.addAttribute("errorMsg",errorMsg); //エラーメッセージをテンプレートに渡す
-			model.addAttribute("total_expence",total_expence);
-			model.addAttribute("expences",expences);
-			model.addAttribute("ExpenceForm",new ExpenceForm());
+			model.addAttribute("errorMsg",errorMsg);
+			populateExpenceModel(model,user);
 			return "expence";
 		}
 		else {
@@ -73,6 +84,23 @@ public class ExpenceController {
 			return "redirect:/expence";
 		}
 		
+	}
+	
+	/**
+	 * 支出の計算後、ビューに情報を渡すメソッド
+	 * @param model
+	 * @param user
+	 */
+	
+	private void populateExpenceModel(Model model,User user) {
+		List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
+		int total_expence = 0;
+		for(Expence expence : expences) {
+			total_expence += expence.getAmount();
+		}
+		model.addAttribute("total_expence",total_expence);
+		model.addAttribute("expences",expences);
+		model.addAttribute("ExpenceForm",new ExpenceForm());
 	}
 
 }

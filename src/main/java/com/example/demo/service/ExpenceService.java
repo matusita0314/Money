@@ -12,18 +12,38 @@ import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 
+/**
+ * 支出画面 service
+ */
+
 @Service
 @RequiredArgsConstructor
 public class ExpenceService {
 	
+	/** ユーザー登録情報DAO */
 	private final UserRepository userrepository;
 	
+	/** 支出登録情報DAO */
 	private final ExpenceRepository expencerepository;
+	
+	/**
+	 * Expenceテーブルからユーザー名を用いて検索
+	 * リスト型で返す
+	 * 
+	 * @param username
+	 * @return リスト型の支出
+	 */
 	
 	public List<Expence> searchExpenceByname(String username){
 		var user = userrepository.findById(username);
 		return expencerepository.findByUsername(user.get().getUsername());
 	}
+	
+	/**
+	 * Expenceテーブルに支出情報を登録する
+	 * 
+	 * @param form
+	 */
 	
 	public void resistExpence(ExpenceForm form){
 		var expence = new Expence();
@@ -33,6 +53,12 @@ public class ExpenceService {
 		expence.setCategory(form.getCategory());
 		expencerepository.save(expence);
 	}
+	
+	/**
+	 * Expenceテーブルから情報を削除する
+	 * 
+	 * @param expence_id
+	 */
 	
 	public void deleteExpence(Integer expence_id) {
 		expencerepository.deleteById(expence_id);
