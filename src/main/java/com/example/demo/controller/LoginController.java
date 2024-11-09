@@ -84,7 +84,7 @@ public class LoginController {
 	 */
 	
 	@GetMapping("first-login")
-	public String view(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
+	public String FirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
 		return "first-login";
 	}
 	
