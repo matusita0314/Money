@@ -9,13 +9,15 @@ import org.springframework.context.MessageSource;
  * 
  */
 public class AppUtil {
-	
-//	 メッセージをとってくるクラスです。
-//	 keyを渡せばメッセージが取れる。
-//	 paramsは置換できる。
-//	 ...は可変変数
-	public static String getMessage(MessageSource messageSource,String key,Object...params) {
-		return messageSource.getMessage(key, params,Locale.JAPAN);
+	/**
+		 メッセージをとってくるクラスです。
+		 keyを渡せばメッセージが取れる。
+		 paramsは置換できる。
+		 ...は可変変数
+	*/
+
+	public static String getMessage(MessageSource messageSource, String key, Object... params) {
+		return messageSource.getMessage(key, params, Locale.JAPAN);
 	}
-	
+
 }

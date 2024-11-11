@@ -53,8 +53,8 @@ public class LoginController {
 	 */
 	
 	@GetMapping(UrlConst.LOGIN) 
-	public String view(Model model,LoginForm form) {
-		return "login";
+	public String loginview(Model model,LoginForm form) {
+		return "loginView";
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class LoginController {
 	public String viewError(Model model,LoginForm form) {
 		var error = (Exception)session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		model.addAttribute("errorMsg",error.getMessage());
-		return "login";
+		return "loginView";
 	}
 	
 	/**
@@ -83,9 +83,9 @@ public class LoginController {
 	 * @return 初回ログイン画面
 	 */
 	
-	@GetMapping("first-login")
+	@GetMapping("/first-login")
 	public String FirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
-		return "first-login";
+		return "firstlogin";
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class LoginController {
 		else {
 			var errorMsg=AppUtil.getMessage(messageSource, MessageConst.LOGIN_WRONG_INPUT);
 			model.addAttribute("errorMsg",errorMsg);
-			return "login";
+			return "loginView";
 		}
 	}
 	
@@ -116,15 +116,15 @@ public class LoginController {
 	 * @param model
 	 * @param form
 	 * @param user
-	 * @retur メニュー画面
+	 * @return メニュー画面
 	 */
 	
-	@PostMapping("first-login")
+	@PostMapping("/first-login")
 	public String firstlogin(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
 		if(form.getSavings() >= form.getGoal()) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
 			model.addAttribute("errorMsg",errorMsg); 
-			return "first-login";
+			return "firstlogin";
 		}
 		service.resistFirstInfo(form,user.getUsername());
 		return "redirect:/menu";
