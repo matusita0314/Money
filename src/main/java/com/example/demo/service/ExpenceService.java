@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Expence;
 import com.example.demo.form.ExpenceForm;
 import com.example.demo.repository.ExpenceRepository;
-import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +18,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ExpenceService {
-	
-	/** ユーザー登録情報DAO */
-	private final UserRepository userrepository;
 	
 	/** 支出登録情報DAO */
 	private final ExpenceRepository expencerepository;
@@ -35,8 +31,7 @@ public class ExpenceService {
 	 */
 	
 	public List<Expence> searchExpenceByname(String username){
-		var user = userrepository.findById(username);
-		return expencerepository.findByUsername(user.get().getUsername());
+		return expencerepository.findByUsername(username);
 	}
 	
 	/**

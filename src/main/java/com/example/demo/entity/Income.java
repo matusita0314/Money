@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,7 +17,7 @@ public class Income {
 	private int income_id;
 	private String username;
 	private int amount;
-	private Date date;
+	private LocalDate date;
 	private String job;
 
 }

@@ -20,7 +20,7 @@
 		}
 
 		.remain-container {
-			width: 80%;
+			width: 30%;
 			background: #ffffff;
 			padding: 20px;
 			border-radius: 8px;
@@ -30,7 +30,7 @@
 		}
 
 		.summary-container {
-			width: 50%;
+			width: 40%;
 			background: #ffffff;
 			padding: 20px;
 			border-radius: 8px;
@@ -118,11 +118,11 @@
 				<a class="link-text" th:href="@{'/change-goal'}">目標を変更したい方はこちら</a>
 			</div>
 			<div class="income-container">
-				<h2>収入</h2>
+				<h2>これまでの収入</h2>
 				<p class="income-text" th:text="${income} + '円'">0円</p>
 			</div>
 			<div class="expence-container">
-				<h2>支出</h2>
+				<h2>これまでの支出</h2>
 				<p class="expence-text" th:text="${expence} + '円'">0円</p>
 			</div>
 		</div>

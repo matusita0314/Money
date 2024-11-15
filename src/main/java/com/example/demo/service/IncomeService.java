@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Income;
 import com.example.demo.form.IncomeForm;
 import com.example.demo.repository.IncomeRepository;
-import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,9 +17,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class IncomeService {
-	
-	/** ユーザー情報登録DAO */
-	private final UserRepository userrepository;
 	
 	/** 収入情報登録DAO */
 	private final IncomeRepository incomerepository;
@@ -34,8 +30,7 @@ public class IncomeService {
 	 */
 	
 	public List<Income> searchIncomeByname(String username){
-		var user = userrepository.findById(username);
-		return incomerepository.findByUsername(user.get().getUsername());
+		return incomerepository.findByUsername(username);
 	}
 	
 	/**

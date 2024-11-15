@@ -19,4 +19,6 @@ public class MessageConst {
 	public static final String EXPENCE_INPUT_WRONG = "expence.input.wrong";
 	
 	public static final String GOAL_INPUT_WRONG = "goal.input.wrong";
+	
+	public static final String SUBSCRIPTION_INPUT_WRONG = "subscription.input.wrong";
 }

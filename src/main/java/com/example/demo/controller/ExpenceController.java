@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class ExpenceController {
 	 */
 	
 	@GetMapping("/expence-delete")
-	public String deleteExpence(Model model,Expence expence) {
+	public String deleteExpence(Expence expence) {
 		expenceservice.deleteExpence(expence.getExpence_id());
 		return "redirect:/expence";
 	}
@@ -93,10 +94,13 @@ public class ExpenceController {
 	 */
 	
 	private void populateExpenceModel(Model model,User user) {
+		LocalDate today = LocalDate.now();
 		List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
 		int total_expence = 0;
 		for(Expence expence : expences) {
-			total_expence += expence.getAmount();
+			if(expence.getDate().getMonth() == today.getMonth()) {
+				total_expence += expence.getAmount();
+			}
 		}
 		model.addAttribute("total_expence",total_expence);
 		model.addAttribute("expences",expences);

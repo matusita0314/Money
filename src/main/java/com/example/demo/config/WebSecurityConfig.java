@@ -26,8 +26,6 @@ public class WebSecurityConfig {
 	
 	private final MessageSource messageSource;
 	
-	private final String USERNAME_PARAMETER = "loginId";
-	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception {
 		

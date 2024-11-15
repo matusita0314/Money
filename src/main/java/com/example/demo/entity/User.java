@@ -21,6 +21,6 @@ public class User {
     private int user_id;
     @Column(name = "first_login", nullable = false)
     private Boolean firstLogin =true;
-    private Integer savings = 0;
-    private Integer goal = 0;
+    private int savings = 0;
+    private int goal = 0;
 }

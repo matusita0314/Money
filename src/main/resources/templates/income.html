@@ -15,9 +15,9 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-start;
-			gap: 20px;
-			width: 100%;
-			padding-top: 30px;
+			gap: 40px;
+			width: 90%;
+			padding: 50px;
 		}
 
 		.form-container,
@@ -68,8 +68,8 @@
 
 		input[type="text"],
 		input[type="date"] {
-			width: 100%;
-			padding: 8px;
+			width: 90%;
+			padding: 10px;
 			margin-top: 5px;
 			margin-bottom: 15px;
 			border: 1px solid #ccc;
@@ -78,7 +78,7 @@
 
 		.btn-box {
 			width: 80%;
-			height: 100px;
+			height: 50px;
 			margin: 0 auto;
 			text-align: center;
 		}
@@ -137,7 +137,7 @@
 		<div class="form-container">
 			<h2>収入入力</h2>
 			<form th:action="@{/income}" method="post" th:object="${IncomeForm}">
-				<span th:text="${errorMsg}"></span>
+				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
 					<label>アルバイト名</label>
 					<input type="text" th:field="*{job}" placeholder="会社名を入力してください">
@@ -158,7 +158,7 @@
 
 		<!-- 中央: 合計収入 -->
 		<div class="summary-container">
-			<h2>合計収入</h2>
+			<h2>今月の収入</h2>
 			<p class="summary-text" th:text="${total_income} + '円'">0円</p>
 		</div>
 

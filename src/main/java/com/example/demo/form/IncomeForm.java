@@ -2,18 +2,14 @@ package com.example.demo.form;
 
 
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import lombok.Data;
 
 @Data
 public class IncomeForm {
 	private int amount;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date date;
+	private LocalDate date;
 	private String username;
 	private String job;
 }

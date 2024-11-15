@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.context.MessageSource;
@@ -93,10 +94,13 @@ public class IncomeController {
 	 */
 	
 	private void populateIncomeModel(Model model,User user) {
+		LocalDate today = LocalDate.now();
 		List<Income> incomes = incomeservice.searchIncomeByname(user.getUsername());
 		int total_income = 0;
 		for(Income income : incomes) {
-			total_income += income.getAmount();
+			if(income.getDate().getMonth() == today.getMonth()) {
+				total_income += income.getAmount();
+			}
 		}
 		model.addAttribute("total_income",total_income);
 		model.addAttribute("incomes",incomes);

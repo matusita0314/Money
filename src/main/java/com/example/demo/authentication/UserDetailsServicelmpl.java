@@ -11,11 +11,10 @@ import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Spring securityの認証機能のカスタマイズするためのクラス
+ * Spring securityの認証機能をカスタマイズするためのクラス
  * DBからユーザー情報をとってきてログイン認証できるようにする。
  * 
  */
-
 
 @Component
 @RequiredArgsConstructor

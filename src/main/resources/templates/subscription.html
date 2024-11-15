@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>サブスク管理画面</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f9;
+			margin: 0;
+		}
+
+		.container {
+			display: flex;
+			align-items: flex-start;
+			width: 95%;
+			padding: 50px;
+			gap: 200px;
+		}
+
+		.form-container {
+			background: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+			flex: 1;
+			max-width: 30%;
+		}
+
+		.table-container {
+			background: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+			flex: 1;
+			max-width: 45%;
+		}
+
+		h2 {
+			font-size: 1.5em;
+			color: #333;
+			border-bottom: 2px solid #4CAF50;
+			padding-bottom: 10px;
+			margin-top: 0;
+		}
+
+		label {
+			font-weight: bold;
+			margin-top: 10px;
+			display: inline-block;
+		}
+
+		input[type="text"],
+		input[type="date"],
+		select {
+			width: 80%;
+			padding: 8px;
+			margin-top: 5px;
+			margin-bottom: 15px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.btn-box {
+			text-align: center;
+		}
+
+		.btn-box button {
+			padding: 8px;
+			color: #fff;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 10px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			border: 1px solid #ddd;
+			text-align: left;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			color: #333;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<div th:insert="~{header}"></div>
+	<div class="container">
+		<!-- 左側: 登録フォーム -->
+		<div class="form-container">
+			<h2>サブスクリプション登録</h2>
+			<form th:action="@{/subscription}" th:object="${subscriptionForm}" method="post">
+				<span style="color: red;" th:text="${errorMsg}"></span>
+				<div>
+					<label>サブスクリプション名：</label>
+					<input type="text" th:field="*{subscription_name}" required />
+				</div>
+				<div>
+					<label>金額：</label>
+					<input type="text" th:field="*{amount}" required />
+				</div>
+				<div>
+					<label>支払い周期：</label>
+					<select id="billingCycle" th:field="*{billing_cycle}" onchange="updateForm()">
+						<option value="">選択してください</option>
+						<option value="MONTHLY">月額払い</option>
+						<option value="ANNUAL">年間払い</option>
+					</select>
+				</div>
+				<div id="monthFields" style="display: none;">
+					<label>支払い日：</label>
+					<select th:field="*{monthly_payment_day}">
+						<option value="0">選択してください</option>
+						<option th:each="i : ${#numbers.sequence(1, 30)}" th:value="${i}" th:text="${i}"></option>
+						<option th:value="${endOfMonth}">末日</option>
+					</select>
+				</div>
+				<div id="annualFields" style="display: none;">
+					<label>支払い日：</label>
+					<input type="date" th:field="*{annual_payment_day}" />
+				</div>
+				<div>
+					<label>通知設定：</label>
+					<input type="checkbox" th:field="*{notify}" />
+				</div>
+				<div class="btn-box">
+					<button type="submit">登録</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- 右側: サブスクリプション一覧 -->
+		<div class="table-container">
+			<h2>サブスクリプション一覧</h2>
+			<table>
+				<tr>
+					<th>サブスク名</th>
+					<th>金額</th>
+					<th>通知</th>
+					<th>引き落とし日</th>
+					<th></th>
+				</tr>
+				<tr th:each="subscription : ${subscriptions}" th:object="${subscription}">
+					<td th:text="${subscription.subscription_name}">サブスク名</td>
+					<td th:text="${subscription.amount}">金額</td>
+					<td th:text="${subscription.notify} ? '通知あり' : '通知なし'"></td>
+					<td th:if="${subscription.billing_cycle == 'MONTHLY'}"
+						th:text="'毎月 ' + ${subscription.monthly_payment_day} + '日'"></td>
+					<td th:if="${subscription.billing_cycle == 'ANNUAL'}" th:text="${subscription.annual_payment_day}">
+					</td>
+					<td>
+						<a class="btn"
+							th:href="@{/subscription-delete(subscription_id=${subscription.subscription_id})}">削除</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		function updateForm() {
+			const billingCycle = document.getElementById('billingCycle').value;
+			const monthlyFields = document.getElementById('monthFields');
+			const annualFields = document.getElementById('annualFields');
+
+			if (billingCycle === 'MONTHLY') {
+				monthlyFields.style.display = 'block';
+				annualFields.style.display = 'none';
+			} else if (billingCycle === 'ANNUAL') {
+				monthlyFields.style.display = 'none';
+				annualFields.style.display = 'block';
+			} else {
+				monthlyFields.style.display = 'none';
+				annualFields.style.display = 'none';
+			}
+		}
+		document.addEventListener('DOMContentLoaded', updateForm);
+	</script>
+</body>
+
+</html>

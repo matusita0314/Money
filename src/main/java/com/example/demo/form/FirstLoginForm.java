@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class FirstLoginForm {
 	
-	private Integer savings;
-	private Integer goal;
+	private int savings;
+	private int goal;
 }

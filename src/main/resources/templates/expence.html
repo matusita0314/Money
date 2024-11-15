@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Expence Page</title>
+	<title>支出管理画面</title>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -15,9 +15,9 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-start;
-			gap: 20px;
-			width: 100%;
-			padding-top: 30px;
+			gap: 40px;
+			width: 90%;
+			padding: 50px;
 		}
 
 		.form-container,
@@ -68,8 +68,8 @@
 
 		input[type="text"],
 		input[type="date"] {
-			width: 100%;
-			padding: 8px;
+			width: 90%;
+			padding: 10px;
 			margin-top: 5px;
 			margin-bottom: 15px;
 			border: 1px solid #ccc;
@@ -78,7 +78,7 @@
 
 		.btn-box {
 			width: 80%;
-			height: 100px;
+			height: 50px;
 			margin: 0 auto;
 			text-align: center;
 		}
@@ -138,7 +138,7 @@
 		<div class="form-container">
 			<h2>支出先</h2>
 			<form th:action="@{/expence}" method="post" th:object="${ExpenceForm}">
-				<span th:text="${errorMsg}"></span>
+				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
 					<label>支出先</label>
 					<input type="text" th:field="*{category}" placeholder="会社名を入力してください">
@@ -159,7 +159,7 @@
 
 		<!-- 中央: 合計収入 -->
 		<div class="summary-container">
-			<h2>合計支出</h2>
+			<h2>今月の支出</h2>
 			<p class="summary-text" th:text="${total_expence} + '円'">0円</p>
 		</div>
 
