@@ -12,7 +12,7 @@ public class SubscriptionForm {
 	private String subscription_name;
 	private String username;
 	private String billing_cycle;
-	private int monthly_payment_day;
+	private Integer monthly_payment_day;
 	private LocalDate annual_payment_day;
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,6 +58,29 @@ public class ExpenceService {
 	
 	public void deleteExpence(Integer expence_id) {
 		expencerepository.deleteById(expence_id);
+	}
+	
+	/**
+	 * データベースから取得した月と支出データを成型する
+	 * @param username
+	 * @return
+	 */
+	
+	public List<Integer> getMonthlyExpence(String username){
+		List<Object[]> rawData = expencerepository.findPast12MonthsExpence(username);
+		List<Integer> monthlyExpence = new ArrayList<>(12);
+		/** 配列の初期化 */
+		for (int i = 0;i < 12; i++) {
+			monthlyExpence.add(0);
+		}
+		/** データベースからのデータをint型に変換 */
+		for(Object[] row : rawData) {
+			int month = (int) row[0] - 1;
+			int totalExpence = ((Number) row[1]).intValue();
+			monthlyExpence.set(month, totalExpence);
+		}
+		
+		return monthlyExpence;
 	}
 	
 }

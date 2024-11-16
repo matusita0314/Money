@@ -1,150 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 	<meta charset="UTF-8">
-	<title>Income Page</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f9;
-			margin: 0;
-		}
-
-		.container {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
-			gap: 40px;
-			width: 90%;
-			padding: 50px;
-		}
-
-		.form-container,
-		.summary-container,
-		.table-container {
-			background: rgb(255, 255, 255);
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-			flex: 1;
-			max-width: 30%;
-		}
-
-		.summary-container {
-			text-align: center;
-			border: 2px solid #4CAF50;
-		}
-
-		h2 {
-			font-size: 1.5em;
-			color: #333;
-			border-bottom: 2px solid #4CAF50;
-			padding-bottom: 10px;
-			margin-top: 0;
-		}
-
-		.summary-container h2 {
-			border-bottom: none;
-		}
-
-		.summary-text {
-			font-size: 3em;
-			color: #4CAF50;
-			font-weight: bold;
-			margin: 0;
-			transition: transform 0.3s ease;
-		}
-
-		.summary-text:hover {
-			transform: scale(1.1);
-		}
-
-		label {
-			font-weight: bold;
-			margin-top: 10px;
-			display: inline-block;
-		}
-
-		input[type="text"],
-		input[type="date"] {
-			width: 90%;
-			padding: 10px;
-			margin-top: 5px;
-			margin-bottom: 15px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
-
-		.btn-box {
-			width: 80%;
-			height: 50px;
-			margin: 0 auto;
-			text-align: center;
-		}
-
-		.btn-box button {
-			padding: 8px;
-			border: none;
-			border-radius: 8px;
-			user-select: none;
-			cursor: pointer;
-		}
-
-		.btn-box button:hover {
-			opacity: .7;
-		}
-
-
-		.btn-box button:active {
-			margin-top: 0.2em;
-		}
-
-		.btn-box button.btn-green {
-			color: #fff;
-			background-color: #4CAF50;
-			box-shadow: 0 0.3em 0 #4CAF50;
-		}
-
-		.btn-box button.btn-green:active {
-			box-shadow: 0 0.1em 0 #4CAF50;
-		}
-
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 10px;
-		}
-
-		th,
-		td {
-			padding: 12px;
-			border: 1px solid #ddd;
-			text-align: left;
-		}
-
-		th {
-			background-color: #f2f2f2;
-			color: #333;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/balance.css}">
+	<title>収入管理ページ</title>
 </head>
-
 <body>
 	<div th:insert="~{header}"></div>
 	<div class="container">
-		<!-- 左側: 入力フォーム -->
 		<div class="form-container">
 			<h2>収入入力</h2>
 			<form th:action="@{/income}" method="post" th:object="${IncomeForm}">
 				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
-					<label>アルバイト名</label>
-					<input type="text" th:field="*{job}" placeholder="会社名を入力してください">
+					<label>収入名</label>
+					<input type="text" th:field="*{job}" placeholder="会社名を入力してください" required>
 				</div>
 				<div>
 					<label>収入額</label>
-					<input type="text" th:field="*{amount}">
+					<input type="text" th:field="*{amount}" required>
 				</div>
 				<div>
 					<label>日付</label>
@@ -155,25 +29,21 @@
 				</div>
 			</form>
 		</div>
-
-		<!-- 中央: 合計収入 -->
 		<div class="summary-container">
 			<h2>今月の収入</h2>
 			<p class="summary-text" th:text="${total_income} + '円'">0円</p>
 		</div>
-
-		<!-- 右側: 収入の一覧 -->
 		<div class="table-container">
 			<h2>収入一覧</h2>
 			<table>
 				<tr>
-					<th>アルバイト名</th>
+					<th>収入源</th>
 					<th>金額</th>
 					<th>日付</th>
 					<th></th>
 				</tr>
 				<tr th:each="income : ${incomes}" th:object="${income}">
-					<td th:text="${income.job}">アルバイト名</td>
+					<td th:text="${income.job}">収入源</td>
 					<td th:text="${income.amount}">金額</td>
 					<td th:text="${income.date}">日付</td>
 					<td>

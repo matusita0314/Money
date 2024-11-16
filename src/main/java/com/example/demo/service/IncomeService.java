@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -56,5 +57,28 @@ public class IncomeService {
 	
 	public void deleteIncome(Integer income_id) {
 		incomerepository.deleteById(income_id);
+	}
+	
+	/**
+	 * データベースから取得した月と収入データを成型する
+	 * @param username
+	 * @return
+	 */
+	
+	public List<Integer> getMonthlyIncome(String username){
+		List<Object[]> rawData = incomerepository.findPast12MonthsIncome(username);
+		List<Integer> monthlyIncome = new ArrayList<>(12);
+		/** 配列の初期化 */
+		for (int i = 0;i < 12; i++) {
+			monthlyIncome.add(0);
+		}
+		/** データベースからのデータをint型に変換 */
+		for(Object[] row : rawData) {
+			int month = (int) row[0] - 1;
+			int totalIncome = ((Number) row[1]).intValue();
+			monthlyIncome.set(month, totalIncome);
+		}
+		
+		return monthlyIncome;
 	}
 }

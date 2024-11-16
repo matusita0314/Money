@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.MessageConst;
+import com.example.demo.constant.UrlConst;
 import com.example.demo.entity.Income;
 import com.example.demo.form.IncomeForm;
 import com.example.demo.service.IncomeService;
@@ -43,7 +44,7 @@ public class IncomeController {
 	 * @return 収入管理画面
 	 */
 	
-	@GetMapping("/income")
+	@GetMapping(UrlConst.INCOME)
 	public String view(Model model,@AuthenticationPrincipal User user) {
 		populateIncomeModel(model,user);
 		return "income";
@@ -56,7 +57,7 @@ public class IncomeController {
 	 * @return 収入管理画面
 	 */
 	
-	@GetMapping("/income-delete")
+	@GetMapping(UrlConst.INCOMEDELETE)
 	public String deleteIncome(Model model,Income income) {
 		incomeservice.deleteIncome(income.getIncome_id());
 		return "redirect:/income";
@@ -70,7 +71,7 @@ public class IncomeController {
 	 * @return 収入管理画面
 	 */
 	
-	@PostMapping("/income")
+	@PostMapping(UrlConst.INCOME)
 	public String resistincome(@AuthenticationPrincipal User user,IncomeForm form,Model model) {
 		if (form.getDate() == null || form.getJob()=="" || form.getAmount() <= 0) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.INCOME_INPUT_WRONG);

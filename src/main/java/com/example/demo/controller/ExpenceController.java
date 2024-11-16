@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.MessageConst;
+import com.example.demo.constant.UrlConst;
 import com.example.demo.entity.Expence;
 import com.example.demo.form.ExpenceForm;
 import com.example.demo.service.ExpenceService;
@@ -43,7 +44,7 @@ public class ExpenceController {
 	 * @return 支出管理画面
 	 */
 	
-	@GetMapping("/expence")
+	@GetMapping(UrlConst.EXPENCE)
 	public String view(Model model,@AuthenticationPrincipal User user) {
 		populateExpenceModel(model,user);
 		return "expence";
@@ -56,7 +57,7 @@ public class ExpenceController {
 	 * @return 支出管理画面
 	 */
 	
-	@GetMapping("/expence-delete")
+	@GetMapping(UrlConst.EXPENCEDELETE)
 	public String deleteExpence(Expence expence) {
 		expenceservice.deleteExpence(expence.getExpence_id());
 		return "redirect:/expence";
@@ -70,7 +71,7 @@ public class ExpenceController {
 	 * @return 支出管理画面
 	 */
 	
-	@PostMapping("/expence")
+	@PostMapping(UrlConst.EXPENCE)
 	public String resistexpence(@AuthenticationPrincipal User user,ExpenceForm form,Model model) {
 		if (form.getDate() == null || form.getCategory()=="" || form.getAmount() <= 0) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.INCOME_INPUT_WRONG);

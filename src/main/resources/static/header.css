@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+.header {
+	padding: 16px 24px;
+	background-color: #4CAF50;
+	align-items: center;
+}
+
+.header-logo {
+	color: rgb(255, 255, 255);
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.header-list {
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+	gap: 32px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.custom-link {
+	color: rgb(255, 255, 255);
+	font-size: 15px;
+	text-decoration: none; 
+}
+
+.custom-link:hover {
+	color: rgb(128, 128, 128);
+}
+
+.header {
+	display: flex;
+	align-items: center;
+}
+
+.header-nav {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.header-user {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.text-light {
+	font-size: 15px;
+	font-weight: bold;
+}

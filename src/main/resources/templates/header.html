@@ -2,76 +2,19 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/header.css}">
 	<title>Income Page</title>
-	<style>
-		.header {
-			padding: 16px 24px;
-			background-color: #4CAF50;
-			align-items: center;
-		}
-
-		.header-logo {
-			color: rgb(255, 255, 255);
-			font-weight: bold;
-			font-size: 30px;
-		}
-
-		.header-list {
-			list-style-type: none; 
-			display: flex;
-			align-items: center;
-			gap: 32px;
-			font-size: 16px;
-			font-weight: bold;
-		}
-
-		.custom-link {
-			color: rgb(255, 255, 255);
-			font-size: 15px;
-		}
-
-		.custom-link:hover {
-			color: rgb(128, 128, 128);
-		}
-
-		.header {
-			display: flex;
-			align-items: center;
-		}
-
-		.header-nav {
-			display: flex;
-			align-items: center;
-			width: 100%;
-		}
-
-		.header-user {
-			margin-left: auto;
-			display: flex;
-			align-items: center;
-			gap: 0.5em;
-		}
-
-		.text-light {
-			font-size: 15px;
-			font-weight: bold;
-		}
-	</style>
-
 </head>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <body>
 	<header class="header">
 		<h1 class="header-logo"><a href="/menu" style="text-decoration: none; color: inherit;">StudiSave</a></h1>
-
-
 		<nav class="header-nav">
 			<ul class="header-list">
 				<li class="header-item"><a href="/menu" class="custom-link">HOME</a></li>
-				<li class="header-item"><a href="/income" class="custom-link">アルバイト</a></li>
-				<li class="header-item"><a href="/expence" class="custom-link">支出</a></li>
-				<li class="header-item"><a href="/subscription" class="custom-link">サブスク</a></li>
+				<li class="header-item"><a href="/income" class="custom-link">収入管理</a></li>
+				<li class="header-item"><a href="/expence" class="custom-link">支出管理</a></li>
+				<li class="header-item"><a href="/subscription" class="custom-link">サブスク管理</a></li>
 			</ul>
 			<div class="header-user">
 				<form th:action="@{/logout}" method="post">

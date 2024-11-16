@@ -49,7 +49,7 @@ public class MenuController {
 	 *   
 	 * @param model
 	 * @param user
-	 * @return first-login / menu
+	 * @return メニュー画面
 	 */
 	
 	@GetMapping(UrlConst.MENU)
@@ -74,11 +74,20 @@ public class MenuController {
 		/**目標までの金額を計算 */
 		int remain = loginuser.get().getGoal() - total_money;
 		
+		/** 収入の月とその月の総収入 */
+		List<Integer> monthlyIncomes = incomeservice.getMonthlyIncome(user.getUsername());
+	    model.addAttribute("monthlyIncomes", monthlyIncomes);
+	    
+	    List<Integer> monthlyExpences = expenceservice.getMonthlyExpence(user.getUsername());
+	    model.addAttribute("monthlyExpences", monthlyExpences);
+
 		model.addAttribute("remain",remain);
 		model.addAttribute("income",total_income);
 		model.addAttribute("expence",total_expence);
 		model.addAttribute("goal",loginuser.get().getGoal());
 		model.addAttribute("total_money",total_money);
+		model.addAttribute("incomes",incomes);
+		model.addAttribute("expences",expences);
 		return "menu";
 	}
 	
@@ -88,7 +97,7 @@ public class MenuController {
 	 * @return 目標変更画面
 	 */
 	
-	@GetMapping("/change-goal")
+	@GetMapping(UrlConst.CHANGEGOAL)
 	public String changeview(ChangeGoalForm form) {
 		return "change-goal";
 	}
@@ -102,7 +111,7 @@ public class MenuController {
 	 * @return メニュー画面
 	 */
 	
-	@PostMapping("/change-goal")
+	@PostMapping(UrlConst.CHANGEGOAL)
 	public String change(Model model,ChangeGoalForm form,@AuthenticationPrincipal User user) {
 		var loginuser = loginservice.searchUserById(user.getUsername());
 		if(form.getGoal() <= loginuser.get().getSavings()) {

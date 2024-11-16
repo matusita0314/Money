@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.MessageConst;
+import com.example.demo.constant.UrlConst;
 import com.example.demo.entity.Subscription;
 import com.example.demo.form.SubscriptionForm;
 import com.example.demo.service.LoginService;
@@ -40,14 +41,13 @@ public class SubscriptionController {
 	 * @return サブスクリプション管理画面
 	 */
 	
-	@GetMapping("/subscription")
+	@GetMapping(UrlConst.SUBSCRIPTION)
 	public String subscriptionview(Model model,@AuthenticationPrincipal User user) {
 		List <Subscription> subscriptions = subscriptionservice.searchSubscriptionByname(user.getUsername());
 		LocalDate today = LocalDate.now();
 		model.addAttribute("endOfMonth",today.lengthOfMonth());
 		model.addAttribute("subscriptions",subscriptions);
 		model.addAttribute("subscriptionForm",new SubscriptionForm());
-//		ssubscriptionservice.sendEmail("softeni.syuto0314@gmail.com","Test Email","This is a TestEmail");
 		return "subscription";
 	}
 	
@@ -59,13 +59,14 @@ public class SubscriptionController {
 	 * @return サブスクリプション管理画面
 	 */
 	
-	@PostMapping("/subscription")
+	@PostMapping(UrlConst.SUBSCRIPTION)
 	public String resistSubscription(@AuthenticationPrincipal User user,SubscriptionForm form,Model model) {
 		if(judgeError(form)) {
 			var errorMsg = AppUtil.getMessage(messagesource,MessageConst.SUBSCRIPTION_INPUT_WRONG);
-			List <Subscription> subscription = subscriptionservice.searchSubscriptionByname(user.getUsername());
+			List <Subscription> subscriptions = subscriptionservice.searchSubscriptionByname(user.getUsername());
 			model.addAttribute("errorMsg",errorMsg);
-			model.addAttribute("subscription",subscription);
+			model.addAttribute("subscriptions",subscriptions);
+			model.addAttribute("SubscriptionForm",new SubscriptionForm());
 			return "subscription";
 		}
 		else {
@@ -82,21 +83,26 @@ public class SubscriptionController {
 	 * @return サブスクリプション管理画面
 	 */
 	
-	@GetMapping("/subscription-delete")
+	@GetMapping(UrlConst.SUBSCRIPTIONDELETE)
 	public String deleteSubscription(Subscription subscription) {
 		subscriptionservice.deleteSubscription(subscription.getSubscription_id());
 		return "redirect:/subscription";
 	}
 	
 	/**
-	 * フォームの誤りチェック
+	 * フォームの誤りチェックメソッド
 	 * @param form
 	 * @return boolean
 	 */
 	
 	private boolean judgeError(SubscriptionForm form) {
 		if(form.getBilling_cycle().equals("MONTHLY")) {
-			if(form.getMonthly_payment_day() <= 0 || form.getMonthly_payment_day() >= 31) {
+			if(form.getMonthly_payment_day() == 100 || form.getAmount() == 0) {
+				return true;
+			}
+		}
+		else {
+			if(form.getAnnual_payment_day() == null) {
 				return true;
 			}
 		}

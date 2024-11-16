@@ -3,101 +3,9 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/menu.css}">
 	<title>HOME</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f9;
-			margin: 0;
-		}
-
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			padding-top: 20px;
-			gap: 20px;
-		}
-
-		.remain-container {
-			width: 30%;
-			background: #ffffff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-			text-align: center;
-			border: 2px solid rgb(255, 0, 0);
-		}
-
-		.summary-container {
-			width: 40%;
-			background: #ffffff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-			text-align: center;
-			border: 2px solid #4CAF50;
-		}
-
-		.goal-container,
-		.income-container,
-		.expence-container {
-			background: #ffffff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-			width: 25%;
-			text-align: center;
-			border: 2px solid #4CAF50;
-		}
-
-		h2 {
-			font-size: 1.2em;
-			color: #333;
-			border-bottom: 2px solid #4CAF50;
-			padding-bottom: 10px;
-			margin-top: 0;
-		}
-
-		.remain-container h1 {
-			font-size: 1.2em;
-			color: #333;
-			border-bottom: 2px solid rgb(255, 0, 0);
-			padding-bottom: 10px;
-			margin-top: 0;
-		}
-
-		.remain-text,
-		.goal-text,
-		.income-text,
-		.expence-text,
-		.summary-text {
-			font-size: 2.5em;
-			color: #4CAF50;
-			font-weight: bold;
-			margin: 0;
-		}
-
-		.remain-text {
-			font-size: 2.5em;
-			color: rgb(255, 83, 83);
-			font-weight: bold;
-			margin: 0;
-		}
-
-		.link-text {
-			margin-top: 10px;
-			color: rgb(72, 72, 72);
-			font-size: 0.9em;
-		}
-
-		.main-container {
-			display: flex;
-			justify-content: center;
-			gap: 20px;
-			width: 80%;
-		}
-	</style>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js ライブラリの読み込み -->
 </head>
 
 <body>
@@ -127,6 +35,58 @@
 			</div>
 		</div>
 	</div>
-</body>
+	<div class="container">
+		<div class="graph-container">
+			<canvas id="savingsGoalChart"></canvas>
+			<canvas id="incomeChart"></canvas>
+			<canvas id="expenceChart"></canvas>
+		</div>
+	</div>
+	<table>
+		<tr>
+			<th>収入源</th>
+			<th>金額</th>
+			<th>日付</th>
+			<th></th>
+		</tr>
+		<tr th:each="income : ${incomes}" th:object="${income}">
+			<td th:text="${income.job}">収入源</td>
+			<td th:text="${income.amount}">金額</td>
+			<td th:text="${income.date}">日付</td>
+			<td>
+				<a class="btn btn-green" th:href="@{/income-delete(income_id=${income.income_id})}">削除</a>
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<th>支出先</th>
+			<th>金額</th>
+			<th>日付</th>
+			<th></th>
+		</tr>
+		<tr th:each="expence : ${expences}" th:object="${expence}">
+			<td th:text="${expence.category}">アルバイト名</td>
+			<td th:text="${expence.amount}">金額</td>
+			<td th:text="${expence.date}">日付</td>
+			<td>
+				<a class="btn btn-green" th:href="@{/expence-delete(expence_id=${expence.expence_id})}">削除</a>
+			</td>
+		</tr>
+	</table>
+	<script th:inline="javascript">
+		/* goal と totalMoney を JavaScript 変数に渡す */
+		var goal = /*[[${goal}]]*/ 0;
+		var totalMoney = /*[[${total_money}]]*/ 0;
+	</script>
+	<script th:inline="javascript">
+		/* monthlyIncomes と monthlyExpences を JavaScript 配列に渡す */
+		var monthlyIncomes = /*[[${monthlyIncomes}]]*/[];
+		var monthlyExpences = /*[[${monthlyExpences}]]*/[];
+	</script>
+	<script th:src="@{/incomechart.js}"></script>
+	<script th:src="@{/expencechart.js}"></script>
 
-</html>
+
+
+</body>

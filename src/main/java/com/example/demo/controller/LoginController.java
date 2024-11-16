@@ -83,7 +83,7 @@ public class LoginController {
 	 * @return 初回ログイン画面
 	 */
 	
-	@GetMapping("/first-login")
+	@GetMapping(UrlConst.FIRSTLOGIN)
 	public String FirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
 		return "firstlogin";
 	}
@@ -119,7 +119,7 @@ public class LoginController {
 	 * @return メニュー画面
 	 */
 	
-	@PostMapping("/first-login")
+	@PostMapping(UrlConst.FIRSTLOGIN)
 	public String firstlogin(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
 		if(form.getSavings() >= form.getGoal()) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
