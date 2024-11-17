@@ -12,11 +12,11 @@
 		<span  style="color: red;" th:text="${errorMsg}"></span>
 		<div>
 			<label> 現在の貯金額は？</label>
-			<input type="text" th:field="*{savings}">
+			<input type="text" th:field="*{savings}" required>
 		</div>
 		<div>
 			<label> 大学生のうちに貯めたい目標は？</label>
-			<input type="text" th:field="*{goal}">
+			<input type="text" th:field="*{goal}" required>
 		</div>
 		<p>※目標は後でも変更可能です</p>
 		<button type="submit">進む</button>

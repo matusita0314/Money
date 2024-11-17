@@ -54,7 +54,7 @@ public class LoginController {
 	
 	@GetMapping(UrlConst.LOGIN) 
 	public String loginview(Model model,LoginForm form) {
-		return "loginView";
+		return "login";
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class LoginController {
 	public String viewError(Model model,LoginForm form) {
 		var error = (Exception)session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		model.addAttribute("errorMsg",error.getMessage());
-		return "loginView";
+		return "login";
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class LoginController {
 	
 	@GetMapping(UrlConst.FIRSTLOGIN)
 	public String FirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
-		return "firstlogin";
+		return "first-login";
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class LoginController {
 		else {
 			var errorMsg=AppUtil.getMessage(messageSource, MessageConst.LOGIN_WRONG_INPUT);
 			model.addAttribute("errorMsg",errorMsg);
-			return "loginView";
+			return "login";
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class LoginController {
 		if(form.getSavings() >= form.getGoal()) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
 			model.addAttribute("errorMsg",errorMsg); 
-			return "firstlogin";
+			return "first-login";
 		}
 		service.resistFirstInfo(form,user.getUsername());
 		return "redirect:/menu";

@@ -36,7 +36,6 @@ public class IncomeController {
 	
 	/**メッセージソース*/
 	private final MessageSource messageSource;
-	
 	/**
 	 * 	収入管理画面表示
 	 * @param model

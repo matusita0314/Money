@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class EmailScheduler {
+public class Scheduler {
 
 	/** サブスクリプションサービス */
 	private final SubscriptionService subscriptionservice;
@@ -33,6 +33,7 @@ public class EmailScheduler {
 	 */
 
 	@Scheduled(cron = "0 0 9 * * ?")
+
 	public void checkandsendEmail() {
 		List<Subscription> subscriptions = subscriptionservice.findAllSubscriptions();
 		LocalDate today = LocalDate.now();
@@ -40,7 +41,7 @@ public class EmailScheduler {
 		for (Subscription subscription : subscriptions) {
 			/** 通知オフならここでストップ */
 			if (subscription.getNotify() == false) {
-				break;
+				continue;
 			}
 			/** ユーザー情報を取得 */
 			String username = subscription.getUsername();
@@ -53,12 +54,12 @@ public class EmailScheduler {
 				if (subscription.getMonthly_payment_day() == 1) {
 					if (today.getDayOfMonth() == today.lengthOfMonth()) {
 						subscriptionservice.sendEmail(userMailaddress, "サブスクの支払日について",
-								subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
+								 username + "様\n\n" + "StudiSaveをご利用いただきありがとうございます。\n" + "こちらはサブスクリプションの支払い日の前日となりましたことを報告するメールとなっております。\n\n" + subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
 					}
 				} else {
 					if (today.getDayOfMonth() == subscription.getMonthly_payment_day() - 1) {
 						subscriptionservice.sendEmail(userMailaddress, "サブスクの支払日について",
-								subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
+								 username + "様\n\n" + "StudiSaveをご利用いただきありがとうございます。\n" + "こちらはサブスクリプションの支払い日の前日となりましたことを報告するメールとなっております。\n\n" + subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
 					}
 				}
 			}
@@ -69,12 +70,12 @@ public class EmailScheduler {
 				if (subscription.getAnnual_payment_day().getDayOfMonth() == 1) {
 					if (today.getDayOfMonth() == today.lengthOfMonth()) {
 						subscriptionservice.sendEmail(userMailaddress, "サブスクの支払日について",
-								subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
+								 username + "様\n\n" + "StudiSaveをご利用いただきありがとうございます。\n" + "こちらはサブスクリプションの支払い日の前日となりましたことを報告するメールとなっております。\n\n" + subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
 					}
 				} else {
 					if (today.getDayOfMonth() == subscription.getAnnual_payment_day().getDayOfMonth() - 1) {
 						subscriptionservice.sendEmail(userMailaddress, "サブスクの支払日について",
-								subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
+								 username + "様\n\n" + "StudiSaveをご利用いただきありがとうございます。\n" + "こちらはサブスクリプションの支払い日の前日となりましたことを報告するメールとなっております。\n\n" + subscription.getSubscription_name() + "の支払日の前日になりましたことを報告いたします。");
 					}
 				}
 			}
@@ -86,7 +87,7 @@ public class EmailScheduler {
 	 * 支払日の場合、支出に加算
 	 */
 
-	@Scheduled(cron = "0 8 16 15 11 ?")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkandExpence() {
 		List <Subscription> subscriptions = subscriptionservice.findAllSubscriptions();
 		LocalDate today = LocalDate.now();

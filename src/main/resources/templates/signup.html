@@ -19,7 +19,7 @@
 				<th class="active">メールアドレス</th>
 				<td>
 					<div class="form-group">
-						<input type="text" class="form-control" th:field="*{mail_address}" />
+						<input type="text" class="form-control" th:field="*{mail_address}" required/>
 					</div>
 				</td>
 			</tr>
@@ -28,7 +28,7 @@
 				<th class="active">ユーザー名</th>
 				<td>
 					<div class="form-group">
-						<input type="text" class="form-control" th:field="*{username}" />
+						<input type="text" class="form-control" th:field="*{username}" required/>
 					</div>
 				</td>
 			</tr>
@@ -37,7 +37,7 @@
 				<th class="active">パスワード</th>
 				<td>
 					<div class="form-group">
-						<input type="text" class="form-control" th:field="*{password}" />
+						<input type="text" class="form-control" th:field="*{password}" required/>
 					</div>
 				</td>
 			</tr>

@@ -12,7 +12,7 @@ public class UrlConst {
 	
 	public static final String EXPENCE = "/expence";
 	
-	public static final String FIRSTLOGIN = "/firstlogin";
+	public static final String FIRSTLOGIN = "/first-login";
 	
 	public static final String CHANGEGOAL = "/change-goal";
 	

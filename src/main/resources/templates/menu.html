@@ -5,16 +5,12 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/menu.css}">
 	<title>HOME</title>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js ライブラリの読み込み -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 	<div th:insert="~{header}"></div>
 	<div class="container">
-		<div class="remain-container">
-			<h1>目標まで残り</h1>
-			<p class="remain-text" th:text="${remain} + '円'">0円</p>
-		</div>
 		<div class="summary-container">
 			<h2>現在の所持金</h2>
 			<p class="summary-text" th:text="${total_money} + '円'">0円</p>
@@ -25,68 +21,74 @@
 				<p class="goal-text" th:text="${goal} + '円'">0円</p>
 				<a class="link-text" th:href="@{'/change-goal'}">目標を変更したい方はこちら</a>
 			</div>
+			<div class="remain-container">
+				<h2>目標まで残り</h2>
+				<p class="remain-text" th:text="${remain} + '円'">0円</p>
+			</div>
+		</div>
+		<div class="chart">
+			<div style="width: 300px; height: 300px;">
+				<canvas id="savingsGoalChart"></canvas>
+			</div>
+		</div>
+		<div class="main-container">
 			<div class="income-container">
 				<h2>これまでの収入</h2>
 				<p class="income-text" th:text="${income} + '円'">0円</p>
 			</div>
+			<div style="width: 300px; height:250px;">
+				<canvas id="incomeChart" style="width: 300px; height:250px;"></canvas>
+			</div>
+			<div class="table-container">
+				<table>
+					<tr>
+						<th>収入源</th>
+						<th>金額</th>
+						<th>日付</th>
+					</tr>
+					<tr th:each="income : ${incomes}" th:object="${income}">
+						<td th:text="${income.job}">収入源</td>
+						<td th:text="${income.amount}">金額</td>
+						<td th:text="${income.date}">日付</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="main-container">
 			<div class="expence-container">
 				<h2>これまでの支出</h2>
 				<p class="expence-text" th:text="${expence} + '円'">0円</p>
 			</div>
+			<div style="width: 300px; height:250px;">
+				<canvas id="expenceChart" style="width: 300px; height:250px;"></canvas>
+			</div>
+			<div class="table-container">
+				<table>
+					<tr>
+						<th>支出先</th>
+						<th>金額</th>
+						<th>日付</th>
+					</tr>
+					<tr th:each="expence : ${expences}" th:object="${expence}">
+						<td th:text="${expence.category}">アルバイト名</td>
+						<td th:text="${expence.amount}">金額</td>
+						<td th:text="${expence.date}">日付</td>
+					</tr>
+				</table>
+			</div>
 		</div>
+
 	</div>
-	<div class="container">
-		<div class="graph-container">
-			<canvas id="savingsGoalChart"></canvas>
-			<canvas id="incomeChart"></canvas>
-			<canvas id="expenceChart"></canvas>
-		</div>
 	</div>
-	<table>
-		<tr>
-			<th>収入源</th>
-			<th>金額</th>
-			<th>日付</th>
-			<th></th>
-		</tr>
-		<tr th:each="income : ${incomes}" th:object="${income}">
-			<td th:text="${income.job}">収入源</td>
-			<td th:text="${income.amount}">金額</td>
-			<td th:text="${income.date}">日付</td>
-			<td>
-				<a class="btn btn-green" th:href="@{/income-delete(income_id=${income.income_id})}">削除</a>
-			</td>
-		</tr>
-	</table>
-	<table>
-		<tr>
-			<th>支出先</th>
-			<th>金額</th>
-			<th>日付</th>
-			<th></th>
-		</tr>
-		<tr th:each="expence : ${expences}" th:object="${expence}">
-			<td th:text="${expence.category}">アルバイト名</td>
-			<td th:text="${expence.amount}">金額</td>
-			<td th:text="${expence.date}">日付</td>
-			<td>
-				<a class="btn btn-green" th:href="@{/expence-delete(expence_id=${expence.expence_id})}">削除</a>
-			</td>
-		</tr>
-	</table>
 	<script th:inline="javascript">
 		/* goal と totalMoney を JavaScript 変数に渡す */
 		var goal = /*[[${goal}]]*/ 0;
 		var totalMoney = /*[[${total_money}]]*/ 0;
-	</script>
-	<script th:inline="javascript">
 		/* monthlyIncomes と monthlyExpences を JavaScript 配列に渡す */
 		var monthlyIncomes = /*[[${monthlyIncomes}]]*/[];
 		var monthlyExpences = /*[[${monthlyExpences}]]*/[];
 	</script>
 	<script th:src="@{/incomechart.js}"></script>
 	<script th:src="@{/expencechart.js}"></script>
-
-
-
+	<script th:src="@{/savingstogoal.js}"></script>
 </body>
