@@ -53,13 +53,13 @@ public class LoginController {
 	 */
 	
 	@GetMapping(UrlConst.LOGIN) 
-	public String loginview(Model model,LoginForm form) {
+	public String showLoginView(Model model,LoginForm form) {
 		return "login";
 	}
 	
 	/**
 	 * ログインエラー時の画面表示
-	 *  エラー時 http://localhost:8080/login?errorとなる。
+	 * エラー時 http://localhost:8080/login?errorとなる。
 	 * 
 	 * @param model
 	 * @param form
@@ -67,7 +67,11 @@ public class LoginController {
 	 */
 	
 	@GetMapping(value = UrlConst.LOGIN,params="error") 
-	public String viewError(Model model,LoginForm form) {
+	public String loginViewError(Model model,LoginForm form) {
+		/** Spring Securityでのログイン時のエラー情報をセッション属性として持っている。
+		 *  WebAttributes.AUTHENTICATION_EXCEPTIONがエラー情報のキー
+		 *  キーの値をExceptionにキャストする
+		 */
 		var error = (Exception)session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		model.addAttribute("errorMsg",error.getMessage());
 		return "login";
@@ -84,21 +88,22 @@ public class LoginController {
 	 */
 	
 	@GetMapping(UrlConst.FIRSTLOGIN)
-	public String FirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
+	public String showFirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
 		return "first-login";
 	}
 	
 	/**
-	 * ログイン
-	 * 
+	 * ログイン時の処理
+	 * フォームで送られてきたユーザー名がDB上に存在し、
+	 * パスワードがDB上のパスワード(暗号化されている)と一致するか確認
 	 * @param model
 	 * @param form
 	 * @return メニュー画面
 	 */
 	
 	@PostMapping(UrlConst.LOGIN)
-	public String login(Model model,LoginForm form) {
-		var user = service.searchUserById(form.getUsername());
+	public String checkLogin(Model model,LoginForm form) {
+		var user = service.searchUserByUsername(form.getUsername());
 		var isCorrectUserAuth = user.isPresent()
 				&& passwordEncoder.matches(form.getPassword(), user.get().getPassword());
 		if(isCorrectUserAuth) {
@@ -113,6 +118,8 @@ public class LoginController {
 	
 	/**
 	 * 初回ログイン時のフォームの処理
+	 * 現在の貯金額よりも目標が高いか確認。
+	 * 問題がなければDB上に保存
 	 * @param model
 	 * @param form
 	 * @param user
@@ -120,10 +127,9 @@ public class LoginController {
 	 */
 	
 	@PostMapping(UrlConst.FIRSTLOGIN)
-	public String firstlogin(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
-		if(form.getSavings() >= form.getGoal()) {
-			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
-			model.addAttribute("errorMsg",errorMsg); 
+	public String checkFirstLogin(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form,@AuthenticationPrincipal User user) {
+		if(form.getSavings() >= form.getGoal() ) {
+			model.addAttribute("errorMsg","目標よりも現在の貯金額の方が高いです");
 			return "first-login";
 		}
 		service.resistFirstInfo(form,user.getUsername());

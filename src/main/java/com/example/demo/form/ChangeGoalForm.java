@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ChangeGoalForm {
 	
-	private int goal;
+	private Integer goal;
 
 }

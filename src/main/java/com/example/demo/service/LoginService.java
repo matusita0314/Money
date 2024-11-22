@@ -29,7 +29,7 @@ public class LoginService {
 	 * @return ユーザーネームと一致するテーブル
 	 */
 	
-	public Optional<User> searchUserById(String username){
+	public Optional<User> searchUserByUsername(String username){
 		return repository.findById(username);
 	}
 	

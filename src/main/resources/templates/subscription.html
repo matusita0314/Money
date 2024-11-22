@@ -19,8 +19,8 @@
 					<input type="text" th:field="*{subscription_name}" required />
 				</div>
 				<div>
-					<label>金額：</label>
-					<input type="text" th:field="*{amount}" required />
+					<label>金額：</label><br>
+					<input type="number" th:field="*{amount}" min="1" required />
 				</div>
 				<div>
 					<label>支払い周期：</label>

@@ -27,12 +27,12 @@ public class SubscriptionController {
 	
 	/** サブスクリプションサービス */
 	private final SubscriptionService subscriptionservice;
+
+	/** ログインサービス */
+	private final LoginService loginservice;
 	
 	/** メッセージソース */
 	private final MessageSource messagesource;
-	
-	/** ログインサービス */
-	private final LoginService loginservice;
 	
 	/**
 	 * サブスクリプション管理画面表示
@@ -42,7 +42,7 @@ public class SubscriptionController {
 	 */
 	
 	@GetMapping(UrlConst.SUBSCRIPTION)
-	public String subscriptionview(Model model,@AuthenticationPrincipal User user) {
+	public String showSubscriptionView(Model model,@AuthenticationPrincipal User user) {
 		List <Subscription> subscriptions = subscriptionservice.searchSubscriptionByname(user.getUsername());
 		LocalDate today = LocalDate.now();
 		model.addAttribute("endOfMonth",today.lengthOfMonth());
@@ -61,6 +61,7 @@ public class SubscriptionController {
 	
 	@PostMapping(UrlConst.SUBSCRIPTION)
 	public String resistSubscription(@AuthenticationPrincipal User user,SubscriptionForm form,Model model) {
+		/** サブスクフォームに誤りがあった際の例外処理 */
 		if(judgeError(form)) {
 			var errorMsg = AppUtil.getMessage(messagesource,MessageConst.SUBSCRIPTION_INPUT_WRONG);
 			List <Subscription> subscriptions = subscriptionservice.searchSubscriptionByname(user.getUsername());
@@ -70,7 +71,7 @@ public class SubscriptionController {
 			return "subscription";
 		}
 		else {
-			var loginuser = loginservice.searchUserById(user.getUsername());
+			var loginuser = loginservice.searchUserByUsername(user.getUsername());
 			form.setUsername(loginuser.get().getUsername());
 			subscriptionservice.resistSubscription(form);
 			return "redirect:/subscription";
@@ -91,6 +92,7 @@ public class SubscriptionController {
 	
 	/**
 	 * フォームの誤りチェックメソッド
+	 * 月間払いの時、「選択してください」が送信されると100が値に入るので、エラーメッセージを渡す
 	 * @param form
 	 * @return boolean
 	 */

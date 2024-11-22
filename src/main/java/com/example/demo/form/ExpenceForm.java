@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ExpenceForm {
 	
-	private int amount;
+	private Integer amount;
 	private LocalDate date;
 	private String username;
 	private String category;

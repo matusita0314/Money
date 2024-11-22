@@ -3,7 +3,8 @@ package com.example.demo.form;
 import lombok.Data;
 
 @Data
-public class FirstLoginForm {
+public class AddSavingsForm {
+	
 	private Integer savings;
-	private Integer goal;
+
 }

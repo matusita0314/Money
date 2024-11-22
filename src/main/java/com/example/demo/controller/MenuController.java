@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.context.MessageSource;
@@ -53,37 +54,51 @@ public class MenuController {
 	 */
 	
 	@GetMapping(UrlConst.MENU)
-	public String view(Model model,@AuthenticationPrincipal User user) {
-		var loginuser = loginservice.searchUserById(user.getUsername());
+	public String showMenuView(Model model,@AuthenticationPrincipal User user) {
+		var loginuser = loginservice.searchUserByUsername(user.getUsername());
 		var isFirsttimeLogin = loginuser.get().getFirstLogin();
+		
+		/** 初回ログインのフラグを戻し、firstlogin画面に飛ばす */
 		if(isFirsttimeLogin) {
-		/** 初回ログインのフラグを戻す */
 			loginservice.resistFirstlogin(user.getUsername()); 
 			return "redirect:/first-login";
 		}
-		/** ユーザーの現在の所持金を計算 */
+		
+		/** ユーザーの現在の所持金を計算。今月の支出はこの中に含めるが今月の収入は振り込まれていないため含めない。*/
 		List<Income> incomes = incomeservice.searchIncomeByname(user.getUsername());
 		List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
 		int total_money = 0;
-		int total_income = 0;
         int total_expence = 0;
-		for(Income income : incomes) total_income += income.getAmount();
 		for(Expence expence : expences) total_expence += expence.getAmount();
-		total_money = total_income - total_expence + loginuser.get().getSavings();
+		total_money =total_expence + loginuser.get().getSavings();
 		
 		/**目標までの金額を計算 */
 		int remain = loginuser.get().getGoal() - total_money;
 		
-		/** 収入の月とその月の総収入 */
+		/** 収入と支出のグラフ用のデータ */
 		List<Integer> monthlyIncomes = incomeservice.getMonthlyIncome(user.getUsername());
-	    model.addAttribute("monthlyIncomes", monthlyIncomes);
-	    
 	    List<Integer> monthlyExpences = expenceservice.getMonthlyExpence(user.getUsername());
-	    model.addAttribute("monthlyExpences", monthlyExpences);
-
+	    
+	    /** 今月の収入と支出の計算 */
+	    int thismonth_income = 0;
+		LocalDate today = LocalDate.now();
+		for(Income income : incomes) {
+			if(income.getDate().getMonth() == today.getMonth()) {
+				thismonth_income += income.getAmount();
+			}
+		}
+		int thismonth_expence = 0;
+		for(Expence expence : expences) {
+			if(expence.getDate().getMonth() == today.getMonth()) {
+				thismonth_expence += expence.getAmount();
+			}
+		}
+		
+		model.addAttribute("monthlyExpences", monthlyExpences);
+		model.addAttribute("monthlyIncomes", monthlyIncomes);
+		model.addAttribute("thismonth_income",thismonth_income);
+		model.addAttribute("thismonth_expence",thismonth_expence);
 		model.addAttribute("remain",remain);
-		model.addAttribute("income",total_income);
-		model.addAttribute("expence",total_expence);
 		model.addAttribute("goal",loginuser.get().getGoal());
 		model.addAttribute("total_money",total_money);
 		model.addAttribute("incomes",incomes);
@@ -92,7 +107,7 @@ public class MenuController {
 	}
 	
 	/**
-	 * 
+	 * 目標を変更するためのGETメソッド
 	 * @param form
 	 * @return 目標変更画面
 	 */
@@ -103,7 +118,7 @@ public class MenuController {
 	}
 	
 	/**
-	 * 目標を変更するためのメソッド
+	 * 目標を変更するためのPOSTメソッド
 	 * 
 	 * @param model
 	 * @param form
@@ -113,7 +128,8 @@ public class MenuController {
 	
 	@PostMapping(UrlConst.CHANGEGOAL)
 	public String change(Model model,ChangeGoalForm form,@AuthenticationPrincipal User user) {
-		var loginuser = loginservice.searchUserById(user.getUsername());
+		var loginuser = loginservice.searchUserByUsername(user.getUsername());
+		/** 目標よりも貯金額の方が多い時の例外処理 */
 		if(form.getGoal() <= loginuser.get().getSavings()) {
 			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.GOAL_INPUT_WRONG);
 			model.addAttribute("errorMsg",errorMsg);

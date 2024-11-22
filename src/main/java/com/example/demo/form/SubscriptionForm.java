@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SubscriptionForm {
 	
-	private int amount;
+	private Integer amount;
 	private Boolean notify;
 	private String subscription_name;
 	private String username;

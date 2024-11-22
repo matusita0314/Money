@@ -19,7 +19,7 @@ public class Subscription {
 	private String username;
 	private Boolean notify = true;
 	private String subscription_name;
-	private int amount;
+	private Integer amount;
 	private String billing_cycle;
 	private int monthly_payment_day;
 	private LocalDate annual_payment_day;

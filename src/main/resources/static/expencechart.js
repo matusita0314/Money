@@ -18,7 +18,14 @@ var chart = new Chart(ctx, {
 		responsive: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				suggestedMax: 100000,
+				suggestedMin: 0,  
+				ticks: {
+					stepSize: 10000, 
+					callback: function(value) {
+						return value + '円';
+					}
+				}
 			}
 		}
 	}
