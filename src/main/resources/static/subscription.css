@@ -46,6 +46,7 @@ label {
 	display: inline-block;
 }
 
+input[type="number"],
 input[type="text"],
 input[type="date"],
 select {

@@ -16,8 +16,9 @@ public class Income {
 	@Id
 	private int income_id;
 	private String username;
-	private int amount;
+	private Integer amount;
 	private LocalDate date;
 	private String job;
+	private LocalDate remittance_date;
 
 }

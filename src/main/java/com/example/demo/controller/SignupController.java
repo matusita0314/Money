@@ -36,7 +36,7 @@ public class SignupController {
 	 */
 	
 	@GetMapping(UrlConst.SIGNUP)
-	public String view(SignupForm form) {
+	public String showSignupView(SignupForm form) {
 		return "signup";
 	}
 	

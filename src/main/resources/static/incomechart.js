@@ -8,9 +8,9 @@ var chart = new Chart(ctx, {
 			{
 				label: '収入',
 				backgroundColor: '#4CAF50',
-				borderColor: '#4CAF50', 
+				borderColor: '#4CAF50',
 				borderWidth: 1,
-				data: monthlyIncomes 
+				data: monthlyIncomes
 			}
 		]
 	},
@@ -18,7 +18,14 @@ var chart = new Chart(ctx, {
 		responsive: true,
 		scales: {
 			y: {
-				beginAtZero: true
+				suggestedMax: 100000,
+				suggestedMin: 0,   
+				ticks: {
+					stepSize: 10000,  
+					callback: function(value) {
+						return value + '円'; 
+					}
+				}
 			}
 		}
 	}

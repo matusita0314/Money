@@ -3,10 +3,6 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * 支出管理コントローラー
- */
-
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +20,11 @@ import com.example.demo.service.LoginService;
 import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
+
+/**
+ * 支出管理コントローラー
+ * 支出の計算、登録、削除のコントローラーを担う。
+ */
 
 @Controller
 @RequiredArgsConstructor
@@ -45,7 +46,8 @@ public class ExpenceController {
 	 */
 	
 	@GetMapping(UrlConst.EXPENCE)
-	public String view(Model model,@AuthenticationPrincipal User user) {
+	public String showExpenceView(Model model,@AuthenticationPrincipal User user) {
+		/** ユーザーの今月の支出額やリストをビューに渡す */ 
 		populateExpenceModel(model,user);
 		return "expence";
 	}
@@ -65,6 +67,9 @@ public class ExpenceController {
 	
 	/**
 	 * 支出を登録
+	 * ビュー側でもエラーチェックはするが開発者ツールで無効にできてしまうのでセキュリティ対策として
+	 * コントローラー側でもエラーチェックを施す。
+	 * 日付がnull、カテゴリーの入力なし、金額が0以下の場合エラーメッセージ
 	 * @param user
 	 * @param form
 	 * @param model
@@ -72,16 +77,20 @@ public class ExpenceController {
 	 */
 	
 	@PostMapping(UrlConst.EXPENCE)
-	public String resistexpence(@AuthenticationPrincipal User user,ExpenceForm form,Model model) {
+	public String resistExpence(@AuthenticationPrincipal User user,ExpenceForm form,Model model) {
+		/** フォームにエラー内容が含まれていた時の例外処理 */
 		if (form.getDate() == null || form.getCategory()=="" || form.getAmount() <= 0) {
-			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.INCOME_INPUT_WRONG);
+			var errorMsg=AppUtil.getMessage(messageSource,MessageConst.EXPENCE_WRONG_INPUT);
+			/** エラーメッセージとユーザーの支出情報をビューに渡す */
 			model.addAttribute("errorMsg",errorMsg);
 			populateExpenceModel(model,user);
 			return "expence";
 		}
 		else {
-			var loginuser = loginservice.searchUserById(user.getUsername());
+			/** ログイン中のユーザー情報を取得し、ユーザー名をフォームにセット */ 
+			var loginuser = loginservice.searchUserByUsername(user.getUsername());
 			form.setUsername(loginuser.get().getUsername());
+			/** 支出フォームを登録し、一覧に反映させるためにリダイレクト */ 
 			expenceservice.resistExpence(form);
 			return "redirect:/expence";
 		}
@@ -89,15 +98,17 @@ public class ExpenceController {
 	}
 	
 	/**
-	 * 支出の計算後、ビューに情報を渡すメソッド
+	 * ログイン中のユーザーの支出の計算後、ビューに支出モデルを渡すメソッド
+	 * 支出一覧には今までの支出を掲示するが、支出合計には今月の支出のみ表示
 	 * @param model
 	 * @param user
 	 */
 	
 	private void populateExpenceModel(Model model,User user) {
-		LocalDate today = LocalDate.now();
 		List<Expence> expences = expenceservice.searchExpenceByname(user.getUsername());
+		/** 登録されている支出の月が今月と同じ支出のみで計算 */
 		int total_expence = 0;
+		LocalDate today = LocalDate.now();
 		for(Expence expence : expences) {
 			if(expence.getDate().getMonth() == today.getMonth()) {
 				total_expence += expence.getAmount();

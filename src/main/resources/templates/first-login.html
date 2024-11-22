@@ -4,19 +4,28 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/login.css}">
-	<title>ログイン画面</title>
+	<title>初回ログイン画面</title>
 </head>
 
 <body class="text-center">
 	<form th:action="@{/first-login}" method="post" th:object="${FirstLoginForm}">
-		<span  style="color: red;" th:text="${errorMsg}"></span>
+		<span style="color: red;" th:text="${errorMsg}"></span>
+		<h1>初回ログイン画面</h1>
+		<h2 class="text-light" th:text="|StudiSaveへようこそ！${#authentication.principal.username} さん|"></h2>
+		<p>以下の質問に答えてください。</p>
 		<div>
 			<label> 現在の貯金額は？</label>
-			<input type="text" th:field="*{savings}" required>
+			<input type="number" th:field="*{savings}" min="1" required>
+			<div th:if="${#fields.hasErrors('savings')}" style="color: red;">
+				<p th:errors="*{savings}">エラーメッセージがここに表示されます。</p>
+			</div>
 		</div>
 		<div>
 			<label> 大学生のうちに貯めたい目標は？</label>
-			<input type="text" th:field="*{goal}" required>
+			<input type="number" th:field="*{goal}" min="1" required>
+			<div th:if="${#fields.hasErrors('goal')}" style="color: red;">
+				<p th:errors="*{goal}">エラーメッセージがここに表示されます。</p>
+			</div>
 		</div>
 		<p>※目標は後でも変更可能です</p>
 		<button type="submit">進む</button>

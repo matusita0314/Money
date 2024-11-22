@@ -18,11 +18,11 @@
 				</div>
 				<div>
 					<label>金額</label>
-					<input type="text" th:field="*{amount}" >
+					<input type="number" th:field="*{amount}" placeholder="収入額を入力してください" min="1" required>
 				</div>
 				<div>
 					<label>日付</label>
-					<input type="date" th:field="*{date}" >
+					<input type="date" th:field="*{date}" required>
 				</div>
 				<div class="btn-box">
 					<button class="btn-green">登録</button>

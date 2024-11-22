@@ -12,7 +12,7 @@
 	<div th:insert="~{header}"></div>
 	<div class="container">
 		<div class="summary-container">
-			<h2>現在の所持金</h2>
+			<h1>あなたの所持金</h1>
 			<p class="summary-text" th:text="${total_money} + '円'">0円</p>
 		</div>
 		<div class="main-container">
@@ -24,6 +24,7 @@
 			<div class="remain-container">
 				<h2>目標まで残り</h2>
 				<p class="remain-text" th:text="${remain} + '円'">0円</p>
+				<p></p>
 			</div>
 		</div>
 		<div class="chart">
@@ -33,8 +34,8 @@
 		</div>
 		<div class="main-container">
 			<div class="income-container">
-				<h2>これまでの収入</h2>
-				<p class="income-text" th:text="${income} + '円'">0円</p>
+				<h2>今月の収入</h2>
+				<p class="income-text" th:text="${thismonth_income} + '円'">0円</p>
 			</div>
 			<div style="width: 300px; height:250px;">
 				<canvas id="incomeChart" style="width: 300px; height:250px;"></canvas>
@@ -56,8 +57,8 @@
 		</div>
 		<div class="main-container">
 			<div class="expence-container">
-				<h2>これまでの支出</h2>
-				<p class="expence-text" th:text="${expence} + '円'">0円</p>
+				<h2>今月の支出</h2>
+				<p class="expence-text" th:text="${thismonth_expence} + '円'">0円</p>
 			</div>
 			<div style="width: 300px; height:250px;">
 				<canvas id="expenceChart" style="width: 300px; height:250px;"></canvas>

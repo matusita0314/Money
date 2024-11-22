@@ -8,8 +8,9 @@ import lombok.Data;
 
 @Data
 public class IncomeForm {
-	private int amount;
+	private Integer amount;
 	private LocalDate date;
 	private String username;
 	private String job;
+	private LocalDate remittance_date;
 }

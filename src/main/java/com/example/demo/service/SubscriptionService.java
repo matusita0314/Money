@@ -26,7 +26,7 @@ public class SubscriptionService {
 	 * @return リスト型のサブスクリプション
 	 */
 	
-	public List<Subscription> findAllSubscriptions(){
+	public List<Subscription> findAllUserSubscriptions(){
 		return subscriptionrepository.findAll();
 	}
 	

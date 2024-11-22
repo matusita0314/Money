@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entity.Income;
 import com.example.demo.entity.Subscription;
+import com.example.demo.form.AddSavingsForm;
 import com.example.demo.form.ExpenceForm;
 import com.example.demo.service.ExpenceService;
+import com.example.demo.service.IncomeService;
 import com.example.demo.service.LoginService;
 import com.example.demo.service.SubscriptionService;
 
@@ -26,6 +29,9 @@ public class Scheduler {
 
 	/** 支出管理サービス */
 	private final ExpenceService expenceservice;
+	
+	/** 収入管理サービス */
+	private final IncomeService incomeservice;
 
 	/**
 	 * 毎日AM9:00に全てのユーザーのサブスクリプションの支払日の前日ではないか確認
@@ -33,9 +39,8 @@ public class Scheduler {
 	 */
 
 	@Scheduled(cron = "0 0 9 * * ?")
-
 	public void checkandsendEmail() {
-		List<Subscription> subscriptions = subscriptionservice.findAllSubscriptions();
+		List<Subscription> subscriptions = subscriptionservice.findAllUserSubscriptions();
 		LocalDate today = LocalDate.now();
 
 		for (Subscription subscription : subscriptions) {
@@ -45,7 +50,7 @@ public class Scheduler {
 			}
 			/** ユーザー情報を取得 */
 			String username = subscription.getUsername();
-			var user = loginservice.searchUserById(username);
+			var user = loginservice.searchUserByUsername(username);
 			String userMailaddress = user.get().getMailAddress();
 
 			/** 月間払い */
@@ -83,13 +88,12 @@ public class Scheduler {
 	}
 
 	/**
-	 * 日付が変わると同時にサブスクの支払日か確認
-	 * 支払日の場合、支出に加算
+	 * 日付が変わると同時にサブスクの支払日か確認し、支払日の場合支出に加算
 	 */
 
 	@Scheduled(cron = "0 0 0 * * ?")
-	public void checkandExpence() {
-		List <Subscription> subscriptions = subscriptionservice.findAllSubscriptions();
+	public void checkSubscription() {
+		List <Subscription> subscriptions = subscriptionservice.findAllUserSubscriptions();
 		LocalDate today = LocalDate.now();
 		
 		for (Subscription subscription : subscriptions) {
@@ -115,6 +119,27 @@ public class Scheduler {
 				}
 			}	
 		}	
+	}
+	
+	/**
+	 * 日付が変わると収入の振込日確認し、振込日の場合貯金に加算
+	 */
+	
+	@Scheduled(cron = "0 27 22 * * ?")
+	public void checkIncome() {
+		List <Income> incomes= incomeservice.findAllUserIncomes();
+		LocalDate today = LocalDate.now();
+		
+		for(Income income : incomes) {
+			/** 収入振込日が今日か確認 */
+			if(income.getRemittance_date().getDayOfMonth() == today.getDayOfMonth()) {
+				String username = income.getUsername();
+				
+				AddSavingsForm form = new AddSavingsForm();
+				form.setSavings(income.getAmount());
+				incomeservice.AddIncomeToSavings(form,username);
+			}
+		}
 	}
 
 }

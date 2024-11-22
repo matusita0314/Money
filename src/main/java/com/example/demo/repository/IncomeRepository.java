@@ -17,5 +17,8 @@ public interface IncomeRepository extends JpaRepository<Income,Integer>{
 	/** 配列[月、その月の合計収入]という形のリスト型で返す*/
 	@Query("SELECT MONTH(i.date) AS month, SUM(i.amount) AS totalIncome FROM Income i WHERE i.username = :username AND i.date >= DATEADD(MONTH, -12, CURRENT_DATE) GROUP BY MONTH(i.date)")
 	List<Object[]> findPast12MonthsIncome(@Param("username") String username);
+	
+	/** 全ユーザーの収入情報をとってくるメソッド */
+	List<Income> findAll();
 
 }

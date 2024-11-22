@@ -16,7 +16,7 @@ public class Expence {
 	@Id
 	private int expence_id;
 	private String username;
-	private int amount;
+	private Integer amount;
 	private LocalDate date;
 	private String category;
 
