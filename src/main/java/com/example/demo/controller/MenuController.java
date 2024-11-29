@@ -70,7 +70,11 @@ public class MenuController {
 		int total_money = 0;
         int total_expence = 0;
 		for(Expence expence : expences) total_expence += expence.getAmount();
+<<<<<<< HEAD
 		total_money =loginuser.get().getSavings() - total_expence;
+=======
+		total_money =total_expence + loginuser.get().getSavings();
+>>>>>>> fd71f6396410125131557066113d3c4e43805c16
 		
 		/**目標までの金額を計算 */
 		int remain = loginuser.get().getGoal() - total_money;
