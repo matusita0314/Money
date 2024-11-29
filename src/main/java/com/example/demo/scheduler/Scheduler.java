@@ -125,7 +125,7 @@ public class Scheduler {
 	 * 日付が変わると収入の振込日確認し、振込日の場合貯金に加算
 	 */
 	
-	@Scheduled(cron = "0 27 22 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkIncome() {
 		List <Income> incomes= incomeservice.findAllUserIncomes();
 		LocalDate today = LocalDate.now();

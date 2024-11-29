@@ -15,8 +15,8 @@
 			<form th:action="@{/income}" method="post" th:object="${IncomeForm}">
 				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
-					<label>収入名</label>
-					<input type="text" th:field="*{job}" placeholder="会社名を入力してください" required>
+					<label>収入源</label>
+					<input type="text" th:field="*{job}" placeholder="収入源を入力してください" required>
 				</div>
 				<div>
 					<label>収入額</label>

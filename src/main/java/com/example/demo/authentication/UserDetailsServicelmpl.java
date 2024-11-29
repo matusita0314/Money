@@ -13,14 +13,22 @@ import lombok.RequiredArgsConstructor;
 /**
  * Spring securityの認証機能をカスタマイズするためのクラス
  * DBからユーザー情報をとってきてログイン認証できるようにする。
- * 
+ * （元々のSpringSecurityではuserがユーザー名でパスワードは提供される）
  */
 
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServicelmpl implements UserDetailsService {
 	
+	/** ユーザー情報テーブルRepository */
 	private final UserRepository repository;
+	
+	/**
+	 * ユーザー情報生成
+	 * 
+	 * @Param username ログインID
+	 * @throws UsernameNotFoundExceprion
+	 */
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

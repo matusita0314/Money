@@ -107,11 +107,11 @@ input[type="date"] {
 }
 
 .table-container {
-    width: 100%;  /* 必要に応じて変更 */
-    max-height: 300px;  /* テーブルの高さを固定。必要に応じて変更 */
-    overflow-y: auto;  /* 垂直方向のスクロールを可能にする */
-    border: 1px solid #ccc;  /* 境界線を追加してテーブルを視覚的に区切る */
-    margin: 20px 0;  /* 上下に余白を追加 */
+    width: 100%;  
+    max-height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc; 
+    margin: 20px 0; 
 }
 
 table {

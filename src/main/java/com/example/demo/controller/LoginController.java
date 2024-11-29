@@ -44,6 +44,11 @@ public class LoginController {
 	/**セッション情報*/
 	private final HttpSession session;
 	
+	@GetMapping("/")
+	public String redirectLogin() {
+		return "redirect:/login";
+	}
+	
 	/**
 	 * 初期表示
 	 * 
@@ -90,6 +95,11 @@ public class LoginController {
 	@GetMapping(UrlConst.FIRSTLOGIN)
 	public String showFirstLoginview(Model model,@ModelAttribute("FirstLoginForm") FirstLoginForm form) {
 		return "first-login";
+	}
+	
+	@GetMapping(params="continue") 
+	public String logincontinue(Model model,LoginForm form) {
+		return "/menu";
 	}
 	
 	/**

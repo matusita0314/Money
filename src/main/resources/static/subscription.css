@@ -59,16 +59,37 @@ select {
 }
 
 .btn-box {
+	width: 80%;
+	height: 50px;
+	margin: 0 auto;
 	text-align: center;
 }
 
 .btn-box button {
 	padding: 8px;
-	color: #fff;
-	background-color: #4CAF50;
 	border: none;
 	border-radius: 8px;
+	user-select: none;
 	cursor: pointer;
+}
+
+.btn-box button:hover {
+	opacity: .7;
+}
+
+
+.btn-box button:active {
+	margin-top: 0.2em;
+}
+
+.btn-box button.btn-green {
+	color: #fff;
+	background-color: #4CAF50;
+	box-shadow: 0 0.3em 0 #4CAF50;
+}
+
+.btn-box button.btn-green:active {
+	box-shadow: 0 0.1em 0 #4CAF50;
 }
 
 table {

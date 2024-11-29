@@ -71,7 +71,7 @@
 						<th>日付</th>
 					</tr>
 					<tr th:each="expence : ${expences}" th:object="${expence}">
-						<td th:text="${expence.category}">アルバイト名</td>
+						<td th:text="${expence.category}">支出先</td>
 						<td th:text="${expence.amount}">金額</td>
 						<td th:text="${expence.date}">日付</td>
 					</tr>

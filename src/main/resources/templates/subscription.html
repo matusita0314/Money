@@ -16,11 +16,11 @@
 				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
 					<label>サブスクリプション名：</label>
-					<input type="text" th:field="*{subscription_name}" required />
+					<input type="text" th:field="*{subscription_name}" placeholder="サブスクリプション名を入力してください" required />
 				</div>
 				<div>
 					<label>金額：</label><br>
-					<input type="number" th:field="*{amount}" min="1" required />
+					<input type="number" th:field="*{amount}" placeholder="金額を入力してください" min="1" required />
 				</div>
 				<div>
 					<label>支払い周期：</label>
@@ -50,7 +50,7 @@
 				    <p>※通知ありの場合、前日にメールが届きます。</p>
 				</div>
 				<div class="btn-box">
-					<button type="submit">登録</button>
+					<button class="btn-green">登録</button>
 				</div>
 			</form>
 		</div>

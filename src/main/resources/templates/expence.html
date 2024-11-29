@@ -14,11 +14,11 @@
 				<span style="color: red;" th:text="${errorMsg}"></span>
 				<div>
 					<label>支出先</label>
-					<input type="text" th:field="*{category}" placeholder="会社名を入力してください" required>
+					<input type="text" th:field="*{category}" placeholder="支出先を入力してください" required>
 				</div>
 				<div>
 					<label>金額</label>
-					<input type="number" th:field="*{amount}" placeholder="収入額を入力してください" min="1" required>
+					<input type="number" th:field="*{amount}" placeholder="支出額を入力してください" min="1" required>
 				</div>
 				<div>
 					<label>日付</label>
@@ -43,7 +43,7 @@
 					<th></th>
 				</tr>
 				<tr th:each="expence : ${expences}" th:object="${expence}">
-					<td th:text="${expence.category}">アルバイト名</td>
+					<td th:text="${expence.category}">支出先</td>
 					<td th:text="${expence.amount}">金額</td>
 					<td th:text="${expence.date}">日付</td>
 					<td>
