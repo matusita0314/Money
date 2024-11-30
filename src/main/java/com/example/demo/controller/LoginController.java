@@ -97,11 +97,6 @@ public class LoginController {
 		return "first-login";
 	}
 	
-	@GetMapping(params="continue") 
-	public String logincontinue(Model model,LoginForm form) {
-		return "/menu";
-	}
-	
 	/**
 	 * ログイン時の処理
 	 * フォームで送られてきたユーザー名がDB上に存在し、
